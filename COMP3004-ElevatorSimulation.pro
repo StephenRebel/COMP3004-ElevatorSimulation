@@ -10,10 +10,16 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    Passenger.cpp \
+    SimulationController.cpp \
+    Action.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    Passenger.h \
+    SimulationController.h \
+    Action.h
 
 FORMS += \
     mainwindow.ui
