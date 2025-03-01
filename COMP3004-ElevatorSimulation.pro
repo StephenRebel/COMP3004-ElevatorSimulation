@@ -19,7 +19,20 @@ HEADERS += \
     mainwindow.h \
     Passenger.h \
     SimulationController.h \
-    Action.h
+    Action.h \
+    Building.h \
+    ElevatorControlSystem.h \ 
+    Elevator.h \
+    ElevatorDoor.h \
+    DoorSensor.h \
+    ElevatorPanel.h \
+    AudioSystem.h \
+    DisplaySystem.h \
+    Floor.h \
+    FloorPanel.h \
+    FloorSensor.h \
+    SafetySystem.h
+
 
 FORMS += \
     mainwindow.ui
