@@ -9,8 +9,8 @@ class Floor {
         Floor(int id);
         ~Floor();
 
-        void pressUpButton();
-        void pressDownButton();
+        void upButtonPressed();
+        void downButtonPressed();
 
     private:
         int id;

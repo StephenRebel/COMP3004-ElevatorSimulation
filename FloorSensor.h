@@ -6,12 +6,12 @@
 class FloorSensor {
 
     public:
-        FloorSensor();
+        FloorSensor(int id);
 
-        bool detectElevator(Elevator& e);
+        bool detectFloor(Elevator& e);
 
     private:
-        
+        int elevatorID;
 };
 
 #endif

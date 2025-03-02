@@ -1,6 +1,8 @@
 #ifndef FLOORPANEL_H
 #define FLOORPANEL_H
 
+#include <iostream>
+
 class FloorPanel {
 
     public:

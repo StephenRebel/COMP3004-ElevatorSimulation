@@ -13,7 +13,19 @@ SOURCES += \
     mainwindow.cpp \
     Passenger.cpp \
     SimulationController.cpp \
-    Action.cpp
+    Action.cpp \
+    Building.cpp \
+    ElevatorControlSystem.cpp \ 
+    Elevator.cpp \
+    ElevatorDoor.cpp \
+    DoorSensor.cpp \
+    ElevatorPanel.cpp \
+    AudioSystem.cpp \
+    DisplaySystem.cpp \
+    Floor.cpp \
+    FloorPanel.cpp \
+    FloorSensor.cpp \
+    SafetySystem.cpp
 
 HEADERS += \
     mainwindow.h \

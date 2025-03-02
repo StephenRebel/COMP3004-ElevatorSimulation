@@ -15,7 +15,6 @@ class ElevatorControlSystem {
         void handleSafetyEvent(const std::string& code);
 
     private:
-        int simulation_time;
 
 };
 
