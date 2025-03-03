@@ -1,8 +1,8 @@
 #ifndef PASSENGER_H
 #define PASSENGER_H
 
-//#include "Elevator.h"
-//#include "Floor.h"
+#include "Elevator.h"
+#include "Floor.h"
 
 class Passenger {
 

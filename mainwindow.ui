@@ -384,17 +384,6 @@
        <string>Exit</string>
       </property>
      </widget>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>861</width>
-        <height>431</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="consoleLayout"/>
-     </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
@@ -407,6 +396,50 @@
       <property name="text">
        <string>Output Console:</string>
       </property>
+     </widget>
+     <widget class="QWidget" name="consoleWidget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>90</y>
+        <width>861</width>
+        <height>431</height>
+       </rect>
+      </property>
+      <widget class="QScrollArea" name="consoleScrollArea">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>861</width>
+         <height>431</height>
+        </rect>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>859</width>
+          <height>429</height>
+         </rect>
+        </property>
+        <widget class="QWidget" name="verticalLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>861</width>
+           <height>431</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="consoleScrollLayout"/>
+        </widget>
+       </widget>
+      </widget>
      </widget>
     </widget>
    </widget>

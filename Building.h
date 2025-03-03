@@ -1,8 +1,8 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "Elevator.h"
 #include "Floor.h"
@@ -12,15 +12,15 @@
 class Building {
 
     public:
-        Building(const std::string& owner, int nF);
+        Building(const std::string& owner, int nF, int nE);
         ~Building();
 
         void pullFireAlarm();
 
     private:
+        std::string owner;
         int numFloors;
         int numElevators;
-        std::string owner;
 
         std::vector<Elevator*> elevators;
         std::vector<Floor*> floors;
@@ -28,4 +28,4 @@ class Building {
         SafetySystem* safetySys;
 };
 
-#endif
+#endif // BUILDING_H

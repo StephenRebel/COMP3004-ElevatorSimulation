@@ -13,4 +13,4 @@ class Action {
         int destination;
 };
 
-#endif //ACTION_H
+#endif // ACTION_H

@@ -21,4 +21,4 @@ class ElevatorDoor {
         bool isOpen;
 };
 
-#endif
+#endif // ELEVATORDOOR_H

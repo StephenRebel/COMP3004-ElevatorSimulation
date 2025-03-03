@@ -16,4 +16,4 @@ class FloorPanel {
 
 };
 
-#endif
+#endif // FLOORPANEL_H

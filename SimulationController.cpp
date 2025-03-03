@@ -1,14 +1,11 @@
 #include "SimulationController.h"
-#include <iostream>
-#include <nlohmann/json.hpp> // Quick google to find best c++ json parsing library, find the git repo
-using json = nlohnmann::json;
 
 // Private constructor
 SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers):
     numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers) {}
 
 // Create a controller and parse incoming data to make sure it is at least somewhat valid.
-SimulationController* SimulationController::createController( int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson) {
+SimulationController* SimulationController::createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson) {
     SimulationController* controller = new SimulationController(numFloors, numElevators, numPassengers);
     
     // Valid actions to parse in
@@ -44,9 +41,9 @@ SimulationController* SimulationController::createController( int numFloors, int
                     return nullptr;
                 }
 
-                Action actionEntry = Action(passengerID, actionJson["action"], actionJson.value("destination", -1))
+                Action actionEntry = Action(passengerID, actionJson["action"], actionJson.value("destination", -1));
                 
-                int timestep = actionJson["timestep"]
+                int timestep = actionJson["timestep"];
                 controller->eventQueue[timestep].push_back(actionEntry);
             }
         }
@@ -59,17 +56,20 @@ SimulationController* SimulationController::createController( int numFloors, int
     return controller;
 }
 
+// Logging function
+void SimulationController::logToConsole(const std::string& message) {
+    emit logToConsoleSignal(message);
+}
+
 // Simulation Controls (does nothing for now)
 void SimulationController::startSimulation() {
-    std::cout << "Simulation started with " << numFloors
-              << " floors, " << numElevators
-              << " elevators, and " << numPassengers << " passengers.\n";
+    logToConsole("Simulation started with " + std::to_string(numFloors) + " floors, " + std::to_string(numElevators) + " elevators, and " + std::to_string(numPassengers) + " passengers.");
 }
 
 void SimulationController::pauseSimulation() {
-    std::cout << "Paused<n";
+    logToConsole("Paused");
 }
 
 void SimulationController::resumeSimulation() {
-    std::cout << "Resumed<n";
+    logToConsole("Resumed");
 }

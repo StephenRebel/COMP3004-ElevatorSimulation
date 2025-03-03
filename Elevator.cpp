@@ -1,11 +1,19 @@
 #include "Elevator.h"
 
 Elevator::Elevator(int id): id(id), currentFloor(1), activeState(false), movingDirection(-1) {
-    eD = new ElevatorDoor();
-    fS = new FloorSensor();
-    dS = new DisplaySystem(); // Initialize all the elevator components
-    aS = new AudioSystem();
-    eP = new ElevatorPanel();
+    eD = new ElevatorDoor(id);
+    fS = new FloorSensor(id);
+    dS = new DisplaySystem(id); // Initialize all the elevator components
+    aS = new AudioSystem(id);
+    eP = new ElevatorPanel(id);
+}
+
+Elevator::~Elevator() {
+    delete eD;
+    delete fS;
+    delete dS;
+    delete aS;
+    delete eP;
 }
 
 void Elevator::move() {

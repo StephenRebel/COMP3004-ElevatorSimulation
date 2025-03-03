@@ -1,7 +1,7 @@
 #ifndef ELEVATORCONTROLSYSTEM_H
 #define ELEVATORCONTROLSYSTEM_H
 
-#include "string"
+#include <string>
 
 #include "Elevator.h"
 
@@ -18,4 +18,4 @@ class ElevatorControlSystem {
 
 };
 
-#endif
+#endif // ELEVATORCONTROLSYSTEM_H

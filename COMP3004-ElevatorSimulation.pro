@@ -49,6 +49,8 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+INCLUDEPATH += $$PWD/nlohmann
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

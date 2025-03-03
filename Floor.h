@@ -19,4 +19,4 @@ class Floor {
 
 };
 
-#endif
+#endif // FLOOR_H

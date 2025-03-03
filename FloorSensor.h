@@ -1,7 +1,7 @@
 #ifndef FLOORSENSOR_H
 #define FLOORSENSOR_H
 
-#include "Elevator.h"
+class Elevator;
 
 class FloorSensor {
 
@@ -14,4 +14,4 @@ class FloorSensor {
         int elevatorID;
 };
 
-#endif
+#endif // FLOORSENSOR_H

@@ -26,14 +26,20 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-    QVBoxLayout *passengerLayout;
-    QWidget *passengerContainer;
+    Ui::MainWindow* ui;
+    QVBoxLayout* passengerLayout;
+    QWidget* passengerContainer;
     QVector<QWidget*> passengerRows; // Track dynamically created rows
+
+    QWidget* consoleScroll;
+    QVBoxLayout* consoleLayout; // Frame for the output console
 
     SimulationController* controller = nullptr;
 
     void switchToSimulationPage();  // Function to switch pages in the stacked widget
+
+public slots:
+    void onLogMessage(const std::string& message);
 
 // Slots to recieve and manipulation use interaction
 private slots:
@@ -45,6 +51,8 @@ private slots:
     void onStopClick();
     void onResetClick();
     void onExitClick();
+
+    void appendMessageConsole(const std::string& text);
 };
 
 #endif // MAINWINDOW_H

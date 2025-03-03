@@ -1,8 +1,15 @@
 {
     "initial_floor": 3,
     "actions": [
-        {"timestep": 1, "action": "press_up", "destination": "4"},
+        {"timestep": 1, "action": "press_up", "destination": 4},
         {"timestep": 4, "action": "press_help"},
         {"timestep": 2, "action": "press_close/open_door"}         
     ]
+}
+
+{
+	"initial_floor": 1,
+	"actions": [
+		{"timestep": 1, "action": "press_up", "destination": 4}
+	]
 }

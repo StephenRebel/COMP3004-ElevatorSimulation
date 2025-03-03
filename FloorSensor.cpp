@@ -1,4 +1,5 @@
 #include "FloorSensor.h"
+#include "Elevator.h"
 
 FloorSensor::FloorSensor(int id): elevatorID(id) {}
 

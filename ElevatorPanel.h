@@ -19,4 +19,4 @@ class ElevatorPanel {
 
 };
 
-#endif
+#endif // ELEVATORPANEL_H

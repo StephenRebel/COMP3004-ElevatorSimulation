@@ -2,8 +2,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
-{
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
     // Create container for passenger inputs, allows adding rows and removing dynamically maintaining layout.
@@ -16,6 +15,14 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(passengerContainer);
     ui->passengerEditorFrame->layout()->addWidget(scrollArea);
+
+    // Get the console setup
+    consoleScroll = new QWidget(ui->consoleScrollArea);
+    consoleLayout = new QVBoxLayout(consoleScroll);
+    consoleScroll->setLayout(consoleLayout);
+
+    ui->consoleScrollArea->setWidgetResizable(true); // Figure out this stupid scrolling console later, I don't know why but it won't scroll just squeeze everythig and is a piece of trash.
+    ui->consoleScrollArea->setWidget(consoleScroll);
 
     // Connect passengersInput QSpinBox to update function
     connect(ui->passengersInput, QOverload<int>::of(&QSpinBox::valueChanged),
@@ -32,9 +39,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->exitButton, &QPushButton::clicked, this, &MainWindow::onExitClick);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::appendMessageConsole(const std::string& text) {
+    QLabel* newMessage = new QLabel(QString::fromStdString(text));
+    newMessage->setWordWrap(true);
+
+    consoleLayout->addWidget(newMessage);
+}
+
+void MainWindow::onLogMessage(const std::string& message) {
+    appendMessageConsole(message);
 }
 
 void MainWindow::on_safetyCheckbox_stateChanged(int state)
@@ -93,8 +110,10 @@ void MainWindow::onStartClick() {
     // Get controller, will validate passed data in here returning a controller or nullptr in fail
     controller = SimulationController::createController(numFloors, numElevators, numPassengers, passengersJson);
     if (controller) {
+        connect(controller, &SimulationController::logToConsoleSignal, this, &MainWindow::onLogMessage);
         // Successfully created controller, now switch to the simulation page
         switchToSimulationPage();
+        controller->startSimulation();
     } else {
         qInfo("Error: Creating the simulation controller failed.");
     }

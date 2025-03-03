@@ -14,4 +14,4 @@ class DoorSensor {
         int elevatorID;
 };
 
-#endif
+#endif // DOORSENSOR_H

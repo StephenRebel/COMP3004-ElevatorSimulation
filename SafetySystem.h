@@ -1,8 +1,8 @@
 #ifndef SAFETYSYSTEM_H
 #define SAFETYSYSTEM_H
 
-#include "string"
-#include "vector"
+#include <string>
+#include <vector>
 
 class SafetySystem {
 
@@ -12,8 +12,8 @@ class SafetySystem {
         void triggerAlarm(const std::string& code);
 
     private:
-        std::vector<string> activeAlarms;
+        std::vector<std::string> activeAlarms;
 
 };
 
-#endif
+#endif // SAFETYSYSTEM_H
