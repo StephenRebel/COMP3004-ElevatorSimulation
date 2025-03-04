@@ -53,3 +53,5 @@ class SimulationController : public QObject {
 #endif // SIMULATIONCONTROLLER_H
 
 // Have to write the main simulation looping event loop now. Think of order of things to call think elevators move first then passenger calls.
+// Also need to handle all the printing of what's happening for elevator components, possibly a report method at the end of each loop all elevators report where they are and passengers the same report where they are and if in elevator. ECS maybe report and safety conditions.
+// Need to add in all the door opening etc.

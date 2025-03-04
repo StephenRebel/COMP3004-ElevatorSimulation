@@ -22,6 +22,7 @@ class Elevator {
         void triggerAlarm(const std::string& code);
         void addDestination(int dest);
         void updateState();
+        void closeDoor();
 
         // Passenger interaction points
         void pressOpenDoor();

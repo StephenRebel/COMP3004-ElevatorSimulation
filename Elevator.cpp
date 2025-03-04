@@ -20,7 +20,9 @@ void Elevator::move() {
     currentFloor += (movingDirection > 0) ? 1 : -1;
 
     if (fS->detectFloor(*this, currentFloor)) {
+        eD->open();
         ECS.elevatorArrived(id, currentFloor, movingDirection);
+        closeDoor();
 
         // Remove floor as a destination
         auto it = std::find(destinations.begin(), destinations.end(), currentFloor);
@@ -62,7 +64,7 @@ void Elevator::pressOpenDoor() {
     eD->open();
 }
 
-void Elevator::pressCloseDoor() {
+void Elevator::closeDoor() {
     int failures = 0;
 
     while (!eD->close()) {
@@ -75,6 +77,10 @@ void Elevator::pressCloseDoor() {
             failures = 0;
         }
     }
+}
+
+void Elevator::pressCloseDoor() {
+    closeDoor();
 }
 
 void Elevator::pressFloor(int floor) {
