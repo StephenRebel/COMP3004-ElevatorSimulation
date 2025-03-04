@@ -30,11 +30,12 @@ Elevator& ElevatorControlSystem::assignElevator(int floor, int direction) { // w
     }
 
     bestElevator->addDestination(floor);
-    return *bestElevator;
+    return *bestElevator; // I don't actually use this instead I use a broadcasting sort of to let any passenger at that floor know an elevator arrived.
 }
 
 void ElevatorControlSystem::elevatorArrived(int elevatorID, int floor, int direction) {
     simController.notifyPassengers(int elevatorID, int floor, int direction);
+    simController.getBuilding().getFloorPanel(floor).deIlluminate(direction);
 }
 
 void ElevatorControlSystem::handleSafetyEvent(const std::string& code) {

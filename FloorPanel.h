@@ -3,16 +3,21 @@
 
 #include <iostream>
 
+#include "ElevatorControlSystem.h"
+
 class FloorPanel {
 
     public:
-        FloorPanel(int id);
+        FloorPanel(int id, ElevatorControlSystem& ecs);
 
         void pressUp();
         void pressDown();
 
+        void deIlluminate(int direction);
+
     private:
-        int floorID; //aka floor number
+        int floorID; //aka floor number starting 1 based indexing
+        ElevatorControlSystem& ECS;
 
 };
 

@@ -51,3 +51,5 @@ class SimulationController : public QObject {
 };
 
 #endif // SIMULATIONCONTROLLER_H
+
+// Have to write the main simulation looping event loop now.
