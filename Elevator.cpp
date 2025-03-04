@@ -1,11 +1,12 @@
 #include "Elevator.h"
 
-Elevator::Elevator(int id): id(id), currentFloor(1), activeState(false), movingDirection(-1) {
+Elevator::Elevator(int id, ElevatorControlSystem& ecs): id(id), currentFloor(1), activeState(false), movingDirection(0) {
     eD = new ElevatorDoor(id);
     fS = new FloorSensor(id);
     dS = new DisplaySystem(id); // Initialize all the elevator components
     aS = new AudioSystem(id);
-    eP = new ElevatorPanel(id);
+
+    ECS = ecs;
 }
 
 Elevator::~Elevator() {
@@ -13,18 +14,55 @@ Elevator::~Elevator() {
     delete fS;
     delete dS;
     delete aS;
-    delete eP;
 }
 
 void Elevator::move() {
-    // not sure right now
+    currentFloor += (movingDirection > 0) ? 1 : -1;
+
+    if (fS->detectFloor(*this, currentFloor)) {
+        ECS.elevatorArrived(id, currentFloor, movingDirection);
+
+        // Remove floor as a destination
+        auto it = std::find(destinations.begin(), destinations.end(), currentFloor);
+        if (it != destinations.end()) {
+            destinations.erase(it);
+        }
+    }
 }
 
-void Elevator::openDoor() {
+void Elevator::updateState() {
+    if (destinations.empty()) {
+        movingDirection = 0;
+        activeState = false;
+        return;
+    }
+
+    bool requestsAbove = false;
+    bool requestsBelow = false;
+
+    for (int floor: destinations) {
+        if (floor > currentFloor) requestsAbove = true;
+        if (floor < currentFloor) requestsBelow = true;
+    }
+
+    // Positive means up, negative down
+    if (movingDirection > 0) {
+        if (requestsAbove) return; // Do not change any state keep moving
+        if (requestsBelow) movingDirection = -1; // No requests upwards but some downwards
+    } else if (movingDirection < 0) {
+        if (requestsBelow) return; // Similar logic
+        if (requestsAbove) movingDirection = 1;
+    } else {
+        movingDirection = (destinarions.front() > currentFloor) ? 1 : -1; // We aren't moving but have requests so start
+        activeState = true;
+    }
+}
+
+void Elevator::pressOpenDoor() {
     eD->open();
 }
 
-void Elevator::closeDoor() {
+void Elevator::pressCloseDoor() {
     int failures = 0;
 
     while (!eD->close()) {
@@ -39,10 +77,41 @@ void Elevator::closeDoor() {
     }
 }
 
+void Elevator::pressFloor(int floor) {
+    addDestination(floor);
+    updateState();
+}
+
+void pressHelp() {
+    std::cout << "Elevator " << id << " help button pressed. Conecting to operator... Conversation terminated." << std::endl;
+}
+
 void Elevator::updateDisplays() {
     dS->updateFloor(currentFloor);
 }
 
 void Elevator::triggerAlarm(const std::string& code) {
     // handle different allarms, like fire etc.
+}
+
+void Elevator::addDestination(int dest) {
+    if(std::find(destinations.begin(), destinations.end(), dest) == destinations.end()) {
+        destinations.push_back(dest);
+    }
+}
+
+int Elevator::getCurrentFloor() {
+    return currentFloor;
+}
+
+bool Elevator::isMoving() {
+    return activeState;
+}
+
+int Elevator::getDirection() {
+    return movingDirection;
+}
+
+std::vector<int>& Elevator::getFloorQueue() {
+    return destinations;
 }

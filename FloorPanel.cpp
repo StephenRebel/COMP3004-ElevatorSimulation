@@ -2,7 +2,7 @@
 
 FloorPanel::FloorPanel(int id): floorID(id) {}
 
-void FloorPanel::pressUp() {
+void FloorPanel::pressUp() { // need to make this call assign elevator.
     std::cout << "Floor " << floorID << ": Up button pressed. Button remains illuminated." << std::endl;
 }
 

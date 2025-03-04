@@ -8,7 +8,7 @@ class FloorSensor {
     public:
         FloorSensor(int id);
 
-        bool detectFloor(Elevator& e);
+        bool detectFloor(Elevator& e, int floor);
 
     private:
         int elevatorID;

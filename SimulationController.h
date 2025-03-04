@@ -26,10 +26,12 @@ class SimulationController : public QObject {
         void resumeSimulation();
 
         void logToConsole(const std::string& message);
+        void notifyPassengers(int elevatorID, int floor, int direction);
 
         int getNumFloors() { return numFloors; }
         int getNumElevators() { return numElevators; }
         int getNumPassengers() { return numPassengers; }
+        Building& getBuilding() { return *building; }
 
     private:
         // Private constructor to enforce the use of the static function
@@ -41,6 +43,8 @@ class SimulationController : public QObject {
         int numFloors;
         int numElevators;
         int numPassengers;
+
+        Building* building;
 
     signals:
         void logToConsoleSignal(const std::string& message);

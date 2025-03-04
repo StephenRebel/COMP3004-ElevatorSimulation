@@ -2,7 +2,9 @@
 
 // Private constructor
 SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers):
-    numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers) {}
+    numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers) {
+        building = new Building("Stephen", numFloors, numElevators, );
+    }
 
 // Create a controller and parse incoming data to make sure it is at least somewhat valid.
 SimulationController* SimulationController::createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson) {
@@ -23,7 +25,7 @@ SimulationController* SimulationController::createController(int numFloors, int 
             }
 
             int initialFloor = parsedJson["initial_floor"];
-            Passenger* p = new Passenger(initialFloor);
+            Passenger* p = new Passenger(initialFloor, controller->getBuilding());
             controller->passengers.push_back(p);
             int passengerID = p->getID();
 
@@ -54,6 +56,14 @@ SimulationController* SimulationController::createController(int numFloors, int 
     }
 
     return controller;
+}
+
+void SimulationController::notifyPassengers(int elevatorID, int floor, int direction) {
+    for (Passenger* p: passengers) {
+        if (p->getCurrentFloor == floor && p->getDesiredDirection() == direction) {
+            p->notifyElevatorArrival(int elevatorID);
+        }
+    }
 }
 
 // Logging function

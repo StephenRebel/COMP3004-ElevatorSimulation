@@ -3,24 +3,36 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "ElevatorDoor.h"
 #include "AudioSystem.h"
 #include "DisplaySystem.h"
-#include "ElevatorPanel.h"
 #include "FloorSensor.h"
+#include "ElevatorControlSystem.h"
 
 class Elevator {
 
     public:
-        Elevator(int id);
+        Elevator(int id, ElevatorControlSystem& ecs);
         ~Elevator();
 
         void move();
-        void openDoor();
-        void closeDoor();
         void updateDisplays();
         void triggerAlarm(const std::string& code);
+        void addDestination(int dest);
+        void updateState();
+
+        // Passenger interaction points
+        void pressOpenDoor();
+        void pressCloseDoor();
+        void pressFloor(int floor);
+        void pressHelp();
+
+        int getCurrentFloor();
+        bool isMoving();
+        int getDirection();
+        std::vectore<int>& getFloorQueue();
 
     private:
         int id;
@@ -33,8 +45,8 @@ class Elevator {
         FloorSensor* fS;
         DisplaySystem* dS;
         AudioSystem* aS;
-        ElevatorPanel* eP;
 
+        ElevatorControlSystem& ECS;
 };
 
 #endif // ELEVATOR_H
