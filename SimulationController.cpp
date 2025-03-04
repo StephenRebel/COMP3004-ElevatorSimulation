@@ -60,8 +60,14 @@ SimulationController* SimulationController::createController(int numFloors, int 
 
 void SimulationController::notifyPassengers(int elevatorID, int floor, int direction) {
     for (Passenger* p: passengers) {
-        if (p->getCurrentFloor == floor && p->getDesiredDirection() == direction) {
-            p->notifyElevatorArrival(int elevatorID);
+        if (!p->isInElevator()) {
+            if (p->getCurrentFloor() == floor && p->getDesiredDirection() == direction) {
+                p->notifyElevatorArrival(elevatorID);
+            }
+        } else {
+            if (p->getElevatorID() == elevatorID && p->getDesiredFloor() == floor) {
+                p->disembarkElevator(floor);
+            }
         }
     }
 }

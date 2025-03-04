@@ -52,4 +52,4 @@ class SimulationController : public QObject {
 
 #endif // SIMULATIONCONTROLLER_H
 
-// Have to write the main simulation looping event loop now.
+// Have to write the main simulation looping event loop now. Think of order of things to call think elevators move first then passenger calls.

@@ -33,6 +33,7 @@ class Elevator {
         bool isMoving();
         int getDirection();
         std::vectore<int>& getFloorQueue();
+        int getID() { return id; }
 
     private:
         int id;
