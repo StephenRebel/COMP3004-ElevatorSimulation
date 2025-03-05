@@ -19,7 +19,6 @@ SOURCES += \
     Elevator.cpp \
     ElevatorDoor.cpp \
     DoorSensor.cpp \
-    ElevatorPanel.cpp \
     AudioSystem.cpp \
     DisplaySystem.cpp \
     FloorPanel.cpp \
@@ -36,7 +35,6 @@ HEADERS += \
     Elevator.h \
     ElevatorDoor.h \
     DoorSensor.h \
-    ElevatorPanel.h \
     AudioSystem.h \
     DisplaySystem.h \
     FloorPanel.h \

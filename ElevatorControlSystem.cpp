@@ -1,15 +1,13 @@
 #include "ElevatorControlSystem.h"
+#include "SimulationController.h"
 
-ElevatorControlSystem::ElevatorControlSystem(std::vector<Elevator*>& e, SimulationController& sC) {
-    elevators = e;
-    simController = sC;
-}
+ElevatorControlSystem::ElevatorControlSystem(SimulationController& sC): elevators(nullptr), simController(sC) {}
 
-Elevator& ElevatorControlSystem::assignElevator(int floor, int direction) { // who actually calls this?
+Elevator* ElevatorControlSystem::assignElevator(int floor, int direction) {
     Elevator* bestElevator = nullptr;
     int minDistance = INT_MAX;
 
-    for (Elevator* elev: elevators) {
+    for (Elevator* elev: *elevators) {
         int distance = abs(elev->getCurrentFloor() - floor);
 
         if (!elev->isMoving()) {
@@ -26,16 +24,16 @@ Elevator& ElevatorControlSystem::assignElevator(int floor, int direction) { // w
     }
 
     if (!bestElevator) {
-        bestElevator = elevators[0]; // If we can't assing a good one based on rules assign this default one.
+        bestElevator = (*elevators)[0]; // If we can't assing a good one based on rules assign this default one.
     }
 
     bestElevator->addDestination(floor);
-    std::cout << "Elevator Control System deemed elevator" << bestElevator->getID << " for request to floor " << floor << std::endl;
-    return *bestElevator; // I don't actually use this instead I use a broadcasting sort of to let any passenger at that floor know an elevator arrived.
+    std::cout << "Elevator Control System deemed elevator" << bestElevator->getID() << " for request to floor " << floor << std::endl;
+    return bestElevator; // I don't actually use this instead I use a broadcasting sort of to let any passenger at that floor know an elevator arrived.
 }
 
 void ElevatorControlSystem::elevatorArrived(int elevatorID, int floor, int direction) {
-    simController.notifyPassengers(int elevatorID, int floor, int direction);
+    simController.notifyPassengers(elevatorID, floor, direction);
     simController.getBuilding().getFloorPanel(floor).deIlluminate(direction);
 }
 
@@ -44,11 +42,15 @@ void ElevatorControlSystem::handleSafetyEvent(const std::string& code) {
 }
 
 void ElevatorControlSystem::updateElevators() {
-    for (Elevator& e: elevators) {
-        if (e.isMoving()) {
-            e.move(); // Perhaps moving isn't the right name but oh well
-            e.updateDisplays();
+    for (Elevator* e: *elevators) {
+        if (e->isMoving()) {
+            e->move(); // Perhaps moving isn't the right name but oh well
+            e->updateDisplays();
         }
-        e.updateState()
+        e->updateState();
     }
+}
+
+void ElevatorControlSystem::setElevators(std::vector<Elevator *> &e) {
+    elevators = &e;
 }

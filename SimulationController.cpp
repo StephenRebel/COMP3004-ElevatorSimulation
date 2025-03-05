@@ -3,7 +3,7 @@
 // Private constructor
 SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers):
     numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers) {
-        building = new Building("Stephen", numFloors, numElevators, );
+        building = new Building("Stephen", numFloors, numElevators, *this);
     }
 
 // Create a controller and parse incoming data to make sure it is at least somewhat valid.

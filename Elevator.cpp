@@ -1,12 +1,11 @@
 #include "Elevator.h"
+#include "ElevatorControlSystem.h"
 
-Elevator::Elevator(int id, ElevatorControlSystem& ecs): id(id), currentFloor(1), activeState(false), movingDirection(0) {
+Elevator::Elevator(int id, ElevatorControlSystem& ecs): id(id), currentFloor(1), activeState(false), movingDirection(0), ECS(ecs) {
     eD = new ElevatorDoor(id);
     fS = new FloorSensor(id);
     dS = new DisplaySystem(id); // Initialize all the elevator components
     aS = new AudioSystem(id);
-
-    ECS = ecs;
 }
 
 Elevator::~Elevator() {
@@ -57,7 +56,7 @@ void Elevator::updateState() {
         if (requestsBelow) return; // Similar logic
         if (requestsAbove) movingDirection = 1;
     } else {
-        movingDirection = (destinarions.front() > currentFloor) ? 1 : -1; // We aren't moving but have requests so start
+        movingDirection = (destinations.front() > currentFloor) ? 1 : -1; // We aren't moving but have requests so start
         activeState = true;
     }
 }
@@ -91,7 +90,7 @@ void Elevator::pressFloor(int floor) {
     updateState();
 }
 
-void pressHelp() {
+void Elevator::pressHelp() {
     std::cout << "Elevator " << id << " help button pressed. Conecting to operator... Conversation terminated." << std::endl;
 }
 
@@ -127,5 +126,15 @@ std::vector<int>& Elevator::getFloorQueue() {
 }
 
 std::string Elevator::reportState() const {
-    return "Elevator: " + std::to_string(id) + ",  Elevator state:" + (activeState ? "moving, Direction: " + (movingDirection > 0 ? "up" : "down") : "idle") + ", Current floor: " + std::to_string(currentFloor);
+    std::string report = "Elevator: " + std::to_string(id) + ", Elevator state: ";
+
+    if (activeState) {
+        report += "moving, Direction: " + std::string(movingDirection > 0 ? "up" : "down");
+    } else {
+        report += "idle";
+    }
+
+    report += ", Current floor: " + std::to_string(currentFloor);
+
+    return report;
 }

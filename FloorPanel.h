@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "ElevatorControlSystem.h"
+class ElevatorControlSystem;
 
 class FloorPanel {
 

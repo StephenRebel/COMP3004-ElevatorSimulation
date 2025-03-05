@@ -4,11 +4,12 @@
 #include <string>
 #include <vector>
 
-#include "SimulationController.h"
 #include "Elevator.h"
 #include "FloorPanel.h"
 #include "ElevatorControlSystem.h"
 #include "SafetySystem.h"
+
+class SimulationController;
 
 class Building {
 

@@ -8,7 +8,7 @@
 }
 
 {
-	"initial_floor": 1,
+    "initial_floor": 1,
 	"actions": [
 		{"timestep": 1, "action": "press_up", "destination": 4}
 	]

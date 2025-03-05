@@ -9,7 +9,8 @@
 #include "AudioSystem.h"
 #include "DisplaySystem.h"
 #include "FloorSensor.h"
-#include "ElevatorControlSystem.h"
+
+class ElevatorControlSystem;
 
 class Elevator {
 
@@ -33,7 +34,7 @@ class Elevator {
         int getCurrentFloor();
         bool isMoving();
         int getDirection();
-        std::vectore<int>& getFloorQueue();
+        std::vector<int>& getFloorQueue();
         int getID() { return id; }
 
         std::string reportState() const;

@@ -48,6 +48,9 @@ void MainWindow::appendMessageConsole(const std::string& text) {
     newMessage->setWordWrap(true);
 
     consoleLayout->addWidget(newMessage);
+
+    QScrollBar* scrollBar = ui->consoleScrollArea->verticalScrollBar();
+    scrollBar->setValue(scrollBar->maximum());
 }
 
 void MainWindow::onLogMessage(const std::string& message) {

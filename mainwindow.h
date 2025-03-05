@@ -12,6 +12,7 @@
 #include <QTextEdit>
 #include <QStackedWidget>
 #include <QDebug>
+#include <QScrollBar>
 
 #include "SimulationController.h"
 
