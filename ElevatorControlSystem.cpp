@@ -30,6 +30,7 @@ Elevator& ElevatorControlSystem::assignElevator(int floor, int direction) { // w
     }
 
     bestElevator->addDestination(floor);
+    std::cout << "Elevator Control System deemed elevator" << bestElevator->getID << " for request to floor " << floor << std::endl;
     return *bestElevator; // I don't actually use this instead I use a broadcasting sort of to let any passenger at that floor know an elevator arrived.
 }
 

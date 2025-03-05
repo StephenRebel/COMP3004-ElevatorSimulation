@@ -36,6 +36,8 @@ class Elevator {
         std::vectore<int>& getFloorQueue();
         int getID() { return id; }
 
+        std::string reportState() const;
+
     private:
         int id;
         int currentFloor;

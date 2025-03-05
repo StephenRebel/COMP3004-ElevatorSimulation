@@ -31,4 +31,5 @@ Building::~Building() {
 
 void Building::pullFireAlarm() {
     safetySys->triggerAlarm("fire");
+    std::cout << "Fire alarm was pulled." << std::endl;
 }

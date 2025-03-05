@@ -28,6 +28,8 @@ class Passenger {
         int getElevatorID() const { return currentElevator->getID(); }
         int getDesiredFloor() const { return desiredFloor; }
 
+        std::string reportState() const;
+
     private:
         int id;
         int currentFloorNum;

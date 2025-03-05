@@ -18,8 +18,10 @@ Elevator::~Elevator() {
 
 void Elevator::move() {
     currentFloor += (movingDirection > 0) ? 1 : -1;
+    std::cout << "Elevator: " << id << " moved to floor " << currentFloor << std::endl;
 
     if (fS->detectFloor(*this, currentFloor)) {
+        std::cout << "Elevator " << id << " arrived at floor destination " << currentFloor << std::endl;
         eD->open();
         ECS.elevatorArrived(id, currentFloor, movingDirection);
         closeDoor();
@@ -68,6 +70,7 @@ void Elevator::closeDoor() {
     int failures = 0;
 
     while (!eD->close()) {
+        std::cout << "Elevator " << id << " door sensor blocked. Retrying..." << std::endl;
         eD->open();
         failures++;
 
@@ -103,6 +106,7 @@ void Elevator::triggerAlarm(const std::string& code) {
 void Elevator::addDestination(int dest) {
     if(std::find(destinations.begin(), destinations.end(), dest) == destinations.end()) {
         destinations.push_back(dest);
+        std::cout << "Elevator " << id << " added floor " << dest << " to destination list" << std::endl;
     }
 }
 
@@ -120,4 +124,8 @@ int Elevator::getDirection() {
 
 std::vector<int>& Elevator::getFloorQueue() {
     return destinations;
+}
+
+std::string Elevator::reportState() const {
+    return "Elevator: " + std::to_string(id) + ",  Elevator state:" + (activeState ? "moving, Direction: " + (movingDirection > 0 ? "up" : "down") : "idle") + ", Current floor: " + std::to_string(currentFloor);
 }

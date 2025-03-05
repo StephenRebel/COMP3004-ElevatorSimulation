@@ -66,3 +66,18 @@ void Passenger::closeDoor() {
 void Passenger::notifyElevatorArrival(int elevatorID) {
     enterElevator(building.getElevator(elevatorID));
 }
+
+std::string Passenger::reportState() const {
+    std::string report = "Passenger: " + std::to_string(id) + ", ";
+
+    if (inElevator) {
+        report += "In Elevator: " + std::tostring(getElevatorID()) + ", Destination: " + std::to_string(desiredFloor);
+    } else {
+        report += "On Floor: " + std::to_string(currentFloorNum);
+        if (desiredFloor != -1) {
+            report += ", Destination Floor: " + std::to_string(desiredFloor);
+        }
+    }
+
+    return report;
+}
