@@ -27,6 +27,9 @@ class Passenger {
         bool isInElevator() const { return inElevator; }
         int getElevatorID() const { return currentElevator->getID(); }
         int getDesiredFloor() const { return desiredFloor; }
+        bool isAtFinalFloor() { return currentFloorNum == finalFloor; }
+
+        void setFinalFloor(int floor) { finalFloor = floor; }
 
         std::string reportState() const;
 
@@ -36,6 +39,7 @@ class Passenger {
         int desiredDirection;
         int desiredFloor;
         bool inElevator;
+        int finalFloor;
 
         Elevator* currentElevator;
         Building& building;

@@ -1,7 +1,7 @@
 #include "ElevatorControlSystem.h"
 #include "SimulationController.h"
 
-ElevatorControlSystem::ElevatorControlSystem(SimulationController& sC): elevators(nullptr), simController(sC) {}
+ElevatorControlSystem::ElevatorControlSystem(SimulationController& sC): elevators(nullptr), simController(sC), safetyEventOccuring(false) {}
 
 Elevator* ElevatorControlSystem::assignElevator(int floor, int direction) {
     Elevator* bestElevator = nullptr;
@@ -53,4 +53,12 @@ void ElevatorControlSystem::updateElevators() {
 
 void ElevatorControlSystem::setElevators(std::vector<Elevator *> &e) {
     elevators = &e;
+}
+
+std::string ElevatorControlSystem::reportState() const {
+    if (safetyEventOccuring) {
+        return "Elevator Control System handling safey condition"; //Might want to report later what condition not worrying for now
+    } else {
+        return "Elevator Control System operating normally";
+    }
 }

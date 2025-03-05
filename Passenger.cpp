@@ -3,7 +3,7 @@
 int Passenger::LastestID = 0;
 
 Passenger::Passenger(int initial_floor_num, Building& building):
-    id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), currentElevator(nullptr), building(building) {}
+    id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), currentElevator(nullptr), building(building), finalFloor(-1) {}
 
 void Passenger::requestElevator(int direction, int floor) {
     FloorPanel& fP = building.getFloorPanel(currentFloorNum - 1);

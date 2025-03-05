@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+    delete controller;
     delete ui;
 }
 
@@ -114,6 +115,7 @@ void MainWindow::onStartClick() {
     controller = SimulationController::createController(numFloors, numElevators, numPassengers, passengersJson);
     if (controller) {
         connect(controller, &SimulationController::logToConsoleSignal, this, &MainWindow::onLogMessage);
+        connect(controller, &SimulationController::simulationEndedSignal, this, &MainWindow::onSimulationEnded);
         // Successfully created controller, now switch to the simulation page
         switchToSimulationPage();
         controller->startSimulation();
@@ -147,13 +149,41 @@ void MainWindow::onStopClick() {
     ui->exitButton->setEnabled(true);
     ui->resetButton->setEnabled(true);
 
-    // Implement some controller stop or pause
+    if (controller) {
+        controller->stopSimulation();
+    }
 }
 
 void MainWindow::onResetClick() {
+    // Clean up and delete any outstanding resources form previous simulation
+    if (controller) {
+        disconnect(controller, &SimulationController::logToConsoleSignal, this, &MainWindow::onLogMessage);
+        disconnect(controller, &SimulationController::simulationEndedSignal, this, &MainWindow::onSimulationEnded);
+        delete controller;
+        controller = nullptr;
+    }
 
+    while (QLayoutItem* item = consoleLayout->takeAt(0)) {
+        if (QWidget* widget = item->widget()) delete widget;
+        delete item;
+    }
+
+    ui->pauseButton->setEnabled(true);
+    ui->resumeButton->setDisabled(true);
+    ui->resetButton->setDisabled(true);
+
+    // Switch back to the setup page
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::onExitClick() {
     exit(0);
+}
+
+void MainWindow::onSimulationEnded() {
+    ui->pauseButton->setDisabled(true);
+    ui->resumeButton->setDisabled(true);
+
+    ui->resetButton->setEnabled(true);
+    ui->exitButton->setEnabled(true);
 }

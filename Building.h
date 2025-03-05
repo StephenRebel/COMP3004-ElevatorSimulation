@@ -18,8 +18,12 @@ class Building {
         ~Building();
 
         void pullFireAlarm();
+        void updateECS();
+        std::string reportECS() const;
+
         FloorPanel& getFloorPanel(int floor) { return *(floors[floor]); }
         Elevator* getElevator(int elevatorID) { return elevators[elevatorID]; }
+        std::vector<Elevator*>& getElevators() { return elevators; }
 
     private:
         std::string owner;

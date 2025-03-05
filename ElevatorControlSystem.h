@@ -19,12 +19,15 @@ class ElevatorControlSystem {
         void updateElevators();
 
         void handleSafetyEvent(const std::string& code);
+        std::string reportState() const;
 
         void setElevators(std::vector<Elevator*>& e);
 
     private:
         std::vector<Elevator*>* elevators;
         SimulationController& simController;
+
+        bool safetyEventOccuring;
 };
 
 #endif // ELEVATORCONTROLSYSTEM_H

@@ -52,6 +52,7 @@ private slots:
     void onStopClick();
     void onResetClick();
     void onExitClick();
+    void onSimulationEnded();
 
     void appendMessageConsole(const std::string& text);
 };

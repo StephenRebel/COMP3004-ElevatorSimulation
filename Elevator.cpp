@@ -105,6 +105,7 @@ void Elevator::triggerAlarm(const std::string& code) {
 void Elevator::addDestination(int dest) {
     if(std::find(destinations.begin(), destinations.end(), dest) == destinations.end()) {
         destinations.push_back(dest);
+        updateState();
         std::cout << "Elevator " << id << " added floor " << dest << " to destination list" << std::endl;
     }
 }

@@ -34,3 +34,11 @@ void Building::pullFireAlarm() {
     safetySys->triggerAlarm("fire");
     std::cout << "Fire alarm was pulled." << std::endl;
 }
+
+void Building::updateECS() {
+    ECS->updateElevators();
+}
+
+std::string Building::reportECS() const {
+    ECS->reportState();
+}
