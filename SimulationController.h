@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QDebug>
 
 #include <nlohmann/json.hpp> // Quick google to find best c++ json parsing library, find the git repo
 
@@ -15,6 +16,7 @@ using json = nlohmann::json;
 
 #include "Passenger.h"
 #include "Action.h"
+#include "Logger.h"
 
 class SimulationController : public QObject {
         Q_OBJECT
@@ -68,6 +70,7 @@ class SimulationController : public QObject {
 
     signals:
         void logToConsoleSignal(const std::string& message);
+        void simulationEndedSignal();
         // may want signals for when the simulation ends/stops.
 };
 

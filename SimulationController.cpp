@@ -2,8 +2,10 @@
 
 // Private constructor
 SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers):
-    numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers), currentTimestep(0), isPaused(false) {
+    currentTimestep(0), isPaused(false), numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers) {
         building = new Building("Stephen", numFloors, numElevators, *this);
+
+        Logger::setController(this);
 
         // Simulator looping setup
         simulationTimer = new QTimer(this);
@@ -34,7 +36,7 @@ SimulationController* SimulationController::createController(int numFloors, int 
 
             // Check for minimal passenger info fields
             if (!parsedJson.contains("initial_floor") || !parsedJson.contains("actions")) {
-                std::cout << "Error: Missing passenger initialization information.\n";
+                qInfo("Error: Missing passenger initialization information.");
                 delete controller;
                 return nullptr;
             }
@@ -47,13 +49,13 @@ SimulationController* SimulationController::createController(int numFloors, int 
             // Parse out passenger actions
             for (const json& actionJson : parsedJson["actions"]) {
                 if (!actionJson.contains("timestep") || !actionJson.contains("action")) {
-                    std::cout << "Error: Missing minimal passenger action information.\n";
+                    qInfo("Error: Missing minimal passenger action information.");
                     delete controller;
                     return nullptr;
                 }
 
                 if (std::find(std::begin(validActions), std::end(validActions), actionJson["action"]) == std::end(validActions)) {
-                    std::cout << "Error: Supplied invalid action (" << actionJson["action"] << "). Must be one of ('press_up', 'press_down', 'press_help', 'press_open_door', 'press_close_door').\n";
+                    qInfo() << "Error: Supplied invalid action (" << QString::fromStdString(actionJson["action"]) << "). Must be one of ('press_up', 'press_down', 'press_help', 'press_open_door', 'press_close_door').";
                     delete controller;
                     return nullptr;
                 }
@@ -70,7 +72,7 @@ SimulationController* SimulationController::createController(int numFloors, int 
             }
         }
     } catch (const std::exception& e) { // Catch any general error during parsing.
-        std::cout << "JSON parsing error: " << e.what() << '\n';
+        qInfo() << "JSON parsing error: " << e.what();
         delete controller;
         return nullptr;
     }
@@ -120,7 +122,7 @@ void SimulationController::processPassengerActions() {
         for (const Action& action: events->second) {
             auto passengerIt = std::find_if(passengers.begin(), passengers.end(), [&action](Passenger* p) { return p->getID() == action.passengerID; });
             if (passengerIt == passengers.end()) {
-                logToConsole("Error: No passenger found with ID " + std::to_string(action.passengerID));
+                qInfo() << "Error: No passenger found with ID " << action.passengerID;
                 continue;
             }
 
@@ -138,7 +140,7 @@ void SimulationController::processPassengerActions() {
             } else if (action.action == "press_help") {
                 passenger->pressHelp();
             } else {
-                logToConsole("Passenger: " + std::to_string(passenger->getID()) + " attemtped invalid action: " + action.action);
+                qInfo() << "Passenger " << passenger->getID() << ": attemtped invalid action: " << QString::fromStdString(action.action);
             }
         }
     }

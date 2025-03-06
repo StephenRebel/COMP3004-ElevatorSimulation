@@ -1,7 +1,7 @@
 #ifndef FLOORPANEL_H
 #define FLOORPANEL_H
 
-#include <iostream>
+#include "Logger.h"
 
 class ElevatorControlSystem;
 

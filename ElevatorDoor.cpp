@@ -1,6 +1,6 @@
 #include "ElevatorDoor.h"
 
-ElevatorDoor::ElevatorDoor(int id): ElevatorID(id), isOpen(false) {
+ElevatorDoor::ElevatorDoor(int id): elevatorID(id), isOpen(false) {
     dS = new DoorSensor(id);
 }
 
@@ -9,10 +9,10 @@ ElevatorDoor::~ElevatorDoor() {
 }
 
 void ElevatorDoor::open() {
-    std::cout << "Elevator " << ElevatorID << ": opening doors." << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": opening door");
 }
 
 bool ElevatorDoor::close() {
-    std::cout << "Elevator " << ElevatorID << ": closing doors." << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": closing doors");
     return dS->detectObstacle();
 }

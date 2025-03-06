@@ -3,13 +3,13 @@
 AudioSystem::AudioSystem(int id): elevatorID(id) {}
 
 void AudioSystem::ringBell() const {
-    std::cout << "Elevator " << elevatorID << ": rings bell 'Ding!'" << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": rings bell Ding!");
 }
 
 void AudioSystem::playMessage(const std::string& message) const {
-    std::cout << "Elevator " << elevatorID << ": Audio System outputs: " << message << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": Audio System outputs: " + message);
 }
 
 void AudioSystem::connectToOperator() const {
-    std::cout << "Elevator " << elevatorID << ": Connecting to operator...\nCommunicating with operator...\nConnection closed."  << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": Connecting to operator...\nCommunicating with operator...\nConnection closed.");
 }

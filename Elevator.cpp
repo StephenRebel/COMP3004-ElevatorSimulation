@@ -17,12 +17,14 @@ Elevator::~Elevator() {
 
 void Elevator::move() {
     currentFloor += (movingDirection > 0) ? 1 : -1;
-    std::cout << "Elevator: " << id << " moved to floor " << currentFloor << std::endl;
+    Logger::log("Elevator " + std::to_string(id) + ": moved to floor" + std::to_string(currentFloor));
 
     if (fS->detectFloor(*this, currentFloor)) {
-        std::cout << "Elevator " << id << " arrived at floor destination " << currentFloor << std::endl;
+        Logger::log("Elevator " + std::to_string(id) + " arrived at floor destination " + std::to_string(currentFloor));
+        aS->ringBell();
         eD->open();
         ECS.elevatorArrived(id, currentFloor, movingDirection);
+        aS->ringBell();
         closeDoor();
 
         // Remove floor as a destination
@@ -69,8 +71,7 @@ void Elevator::closeDoor() {
     int failures = 0;
 
     while (!eD->close()) {
-        std::cout << "Elevator " << id << " door sensor blocked. Retrying..." << std::endl;
-        eD->open();
+        Logger::log("Elevator " + std::to_string(id) + " door sensor blocked. Retrying...");
         failures++;
 
         if (failures == 5) {
@@ -91,11 +92,12 @@ void Elevator::pressFloor(int floor) {
 }
 
 void Elevator::pressHelp() {
-    std::cout << "Elevator " << id << " help button pressed. Conecting to operator... Conversation terminated." << std::endl;
+    Logger::log("Elevator " + std::to_string(id) + " help button pressed. Conecting to operator... Conversation terminated.");
 }
 
 void Elevator::updateDisplays() {
     dS->updateFloor(currentFloor);
+    aS->playMessage("floor " + std::to_string(currentFloor));
 }
 
 void Elevator::triggerAlarm(const std::string& code) {
@@ -106,7 +108,7 @@ void Elevator::addDestination(int dest) {
     if(std::find(destinations.begin(), destinations.end(), dest) == destinations.end()) {
         destinations.push_back(dest);
         updateState();
-        std::cout << "Elevator " << id << " added floor " << dest << " to destination list" << std::endl;
+        Logger::log("Elevator " + std::to_string(id) + " added floor " + std::to_string(dest) + " to destination list");
     }
 }
 

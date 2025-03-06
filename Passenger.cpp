@@ -3,17 +3,17 @@
 int Passenger::LastestID = 0;
 
 Passenger::Passenger(int initial_floor_num, Building& building):
-    id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), currentElevator(nullptr), building(building), finalFloor(-1) {}
+    id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), finalFloor(-1), currentElevator(nullptr), building(building) {}
 
 void Passenger::requestElevator(int direction, int floor) {
     FloorPanel& fP = building.getFloorPanel(currentFloorNum - 1);
     
     if (direction > 0) {
         fP.pressUp();
-        std::cout << "Passenger has pressed up button on floor " << currentFloorNum;
+        Logger::log("Passenger " + std::to_string(id) + ": has pressed up button on floor " + std::to_string(currentFloorNum));
     } else {
         fP.pressDown();
-        std::cout << "Passenger has pressed dwon button on floor " << currentFloorNum;
+        Logger::log("Passenger " + std::to_string(id) + ": has pressed down button on floor " + std::to_string(currentFloorNum));
     }
 
     desiredDirection = direction;
@@ -62,7 +62,6 @@ void Passenger::closeDoor() {
     }
 }
 
-// Might be redundant I'll think
 void Passenger::notifyElevatorArrival(int elevatorID) {
     enterElevator(building.getElevator(elevatorID));
 }

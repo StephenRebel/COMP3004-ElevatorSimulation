@@ -9,6 +9,7 @@
 #include "AudioSystem.h"
 #include "DisplaySystem.h"
 #include "FloorSensor.h"
+#include "Logger.h"
 
 class ElevatorControlSystem;
 

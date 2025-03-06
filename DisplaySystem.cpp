@@ -3,9 +3,9 @@
 DisplaySystem::DisplaySystem(int id): elevatorID(id) {}
 
 void DisplaySystem::updateFloor(int floor) const {
-    std::cout << "Elevator " << elevatorID << ": Update floor display to: " << floor << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": Update floor display to: " + std::to_string(floor));
 }
 
 void DisplaySystem::warningMessage(const std::string& message) const {
-    std::cout << "Elevator " << elevatorID << ": Display system displayed message: " << message << std::endl;
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": Display system displayed message: " + message);
 }

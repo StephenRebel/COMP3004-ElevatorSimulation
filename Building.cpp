@@ -32,7 +32,7 @@ Building::~Building() {
 
 void Building::pullFireAlarm() {
     safetySys->triggerAlarm("fire");
-    std::cout << "Fire alarm was pulled." << std::endl;
+    Logger::log("Fire alarm was pulled.");
 }
 
 void Building::updateECS() {
@@ -40,5 +40,5 @@ void Building::updateECS() {
 }
 
 std::string Building::reportECS() const {
-    ECS->reportState();
+    return ECS->reportState();
 }

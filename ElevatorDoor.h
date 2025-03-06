@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "DoorSensor.h"
+#include "Logger.h"
 
 class ElevatorDoor {
 
@@ -17,7 +18,7 @@ class ElevatorDoor {
     private:
         DoorSensor* dS;
         
-        int ElevatorID;
+        int elevatorID;
         bool isOpen;
 };
 

@@ -4,6 +4,7 @@
 #include "Elevator.h"
 #include "FloorPanel.h"
 #include "Building.h"
+#include "Logger.h"
 
 class Passenger {
 

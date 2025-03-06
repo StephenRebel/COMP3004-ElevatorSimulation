@@ -8,6 +8,7 @@
 #include "FloorPanel.h"
 #include "ElevatorControlSystem.h"
 #include "SafetySystem.h"
+#include "Logger.h"
 
 class SimulationController;
 

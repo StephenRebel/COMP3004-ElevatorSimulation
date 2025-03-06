@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "Logger.h"
+
 class AudioSystem {
 
     public:

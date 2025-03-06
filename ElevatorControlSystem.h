@@ -6,6 +6,7 @@
 #include <limits.h>
 
 #include "Elevator.h"
+#include "Logger.h"
 
 class SimulationController;
 
