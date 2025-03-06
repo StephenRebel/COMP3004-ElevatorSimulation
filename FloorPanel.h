@@ -17,6 +17,8 @@ class FloorPanel {
 
     private:
         int floorID; //aka floor number starting 1 based indexing
+        bool isIlluminatedUp;
+        bool isIlluminatedDown;
         ElevatorControlSystem& ECS;
 
 };

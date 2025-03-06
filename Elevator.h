@@ -20,6 +20,7 @@ class Elevator {
         ~Elevator();
 
         void move();
+        void checkFloorArrival();
         void updateDisplays();
         void triggerAlarm(const std::string& code);
         void addDestination(int dest);

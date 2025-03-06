@@ -83,7 +83,7 @@ SimulationController* SimulationController::createController(int numFloors, int 
 void SimulationController::notifyPassengers(int elevatorID, int floor, int direction) {
     for (Passenger* p: passengers) {
         if (!p->isInElevator()) {
-            if (p->getCurrentFloor() == floor && p->getDesiredDirection() == direction) {
+            if (p->getCurrentFloor() == floor && (p->getDesiredDirection() == direction || direction == 0)) {
                 p->notifyElevatorArrival(elevatorID);
             }
         } else {
@@ -113,6 +113,8 @@ void SimulationController::simulationStep() {
     reportSystemState();
 
     checkSimulationCompletion();
+
+    currentTimestep += 1;
 }
 
 void SimulationController::processPassengerActions() {
@@ -186,15 +188,6 @@ void SimulationController::logToConsole(const std::string& message) {
 
 // Simulation Controls (does nothing for now)
 void SimulationController::startSimulation() {
-    /* //Might be useful in resetting simulation and ensuring values.
-    currentTimestep = 0;
-    isPaused = false;
-
-    logToConsole("Simulation started"); // Can cahnge detail of message here might want to include basic satrt parameters like num of things expected time idk.
-
-    simulationTimer->start();
-     */
-
     logToConsole("Simulation started with " + std::to_string(numFloors) + " floors, " + std::to_string(numElevators) + " elevators, and " + std::to_string(numPassengers) + " passengers.");
 
     // View event list for now
@@ -208,6 +201,13 @@ void SimulationController::startSimulation() {
         }
         logToConsole("------------------------");
     }
+
+    logToConsole("--------Simulation steps beggining--------");
+
+    currentTimestep = 0;
+    isPaused = false;
+
+    simulationTimer->start();
 }
 
 void SimulationController::pauseSimulation() {

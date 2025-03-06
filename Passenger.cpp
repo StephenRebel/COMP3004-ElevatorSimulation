@@ -6,22 +6,25 @@ Passenger::Passenger(int initial_floor_num, Building& building):
     id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), finalFloor(-1), currentElevator(nullptr), building(building) {}
 
 void Passenger::requestElevator(int direction, int floor) {
-    FloorPanel& fP = building.getFloorPanel(currentFloorNum - 1);
-    
-    if (direction > 0) {
-        fP.pressUp();
-        Logger::log("Passenger " + std::to_string(id) + ": has pressed up button on floor " + std::to_string(currentFloorNum));
-    } else {
-        fP.pressDown();
-        Logger::log("Passenger " + std::to_string(id) + ": has pressed down button on floor " + std::to_string(currentFloorNum));
-    }
+    if (!inElevator){
+        FloorPanel& fP = building.getFloorPanel(currentFloorNum);
 
-    desiredDirection = direction;
-    desiredFloor = floor;
+        if (direction > 0) {
+            Logger::log("Passenger " + std::to_string(id) + ": has pressed up button on floor " + std::to_string(currentFloorNum));
+            fP.pressUp();
+        } else {
+            Logger::log("Passenger " + std::to_string(id) + ": has pressed down button on floor " + std::to_string(currentFloorNum));
+            fP.pressDown();
+        }
+
+        desiredDirection = direction;
+        desiredFloor = floor;
+    }
 }
 
 void Passenger::enterElevator(Elevator* elevator) {
     if (!inElevator) {
+        Logger::log("Passenger " + std::to_string(id) + ": entering elevator " + std::to_string(elevator->getID()));
         inElevator = true;
         currentElevator = elevator;
     }

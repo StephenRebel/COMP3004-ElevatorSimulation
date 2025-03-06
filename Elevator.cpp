@@ -17,21 +17,24 @@ Elevator::~Elevator() {
 
 void Elevator::move() {
     currentFloor += (movingDirection > 0) ? 1 : -1;
-    Logger::log("Elevator " + std::to_string(id) + ": moved to floor" + std::to_string(currentFloor));
+    Logger::log("Elevator " + std::to_string(id) + ": moved to floor " + std::to_string(currentFloor));
+}
 
+void Elevator::checkFloorArrival() {
     if (fS->detectFloor(*this, currentFloor)) {
+        // Remove floor as a destination
+        auto it = std::find(destinations.begin(), destinations.end(), currentFloor);
+        if (it != destinations.end()) {
+            destinations.erase(it);
+        }
+        updateState();
+
         Logger::log("Elevator " + std::to_string(id) + " arrived at floor destination " + std::to_string(currentFloor));
         aS->ringBell();
         eD->open();
         ECS.elevatorArrived(id, currentFloor, movingDirection);
         aS->ringBell();
         closeDoor();
-
-        // Remove floor as a destination
-        auto it = std::find(destinations.begin(), destinations.end(), currentFloor);
-        if (it != destinations.end()) {
-            destinations.erase(it);
-        }
     }
 }
 

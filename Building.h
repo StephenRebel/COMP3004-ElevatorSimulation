@@ -22,7 +22,7 @@ class Building {
         void updateECS();
         std::string reportECS() const;
 
-        FloorPanel& getFloorPanel(int floor) { return *(floors[floor]); }
+        FloorPanel& getFloorPanel(int floor) { return *(floors[floor - 1]); } // -1 for 1 based indexing of floors
         Elevator* getElevator(int elevatorID) { return elevators[elevatorID]; }
         std::vector<Elevator*>& getElevators() { return elevators; }
 

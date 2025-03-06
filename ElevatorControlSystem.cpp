@@ -27,8 +27,8 @@ Elevator* ElevatorControlSystem::assignElevator(int floor, int direction) {
         bestElevator = (*elevators)[0]; // If we can't assing a good one based on rules assign this default one.
     }
 
+    Logger::log("Elevator Control System deemed elevator " + std::to_string(bestElevator->getID()) + " for request to floor " + std::to_string(floor));
     bestElevator->addDestination(floor);
-    Logger::log("Elevator Control System deemed elevator" + std::to_string(bestElevator->getID()) + " for request to floor " + std::to_string(floor));
     return bestElevator; // I don't actually use this instead I use a broadcasting sort of to let any passenger at that floor know an elevator arrived.
 }
 
@@ -43,11 +43,13 @@ void ElevatorControlSystem::handleSafetyEvent(const std::string& code) {
 
 void ElevatorControlSystem::updateElevators() {
     for (Elevator* e: *elevators) {
+        e->checkFloorArrival();
+        e->updateState();
+
         if (e->isMoving()) {
             e->move(); // Perhaps moving isn't the right name but oh well
             e->updateDisplays();
         }
-        e->updateState();
     }
 }
 
