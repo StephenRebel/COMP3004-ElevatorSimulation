@@ -36,6 +36,10 @@ void ElevatorControlSystem::elevatorArrived(int elevatorID, int floor, int direc
     simController.getBuilding().getFloorPanel(floor).deIlluminate(direction);
 }
 
+void ElevatorControlSystem::overloadNotify(int elevatorID) {
+    simController.requestWeightDrop(elevatorID);
+}
+
 void ElevatorControlSystem::handleSafetyEvent(const std::string& code) {
     // Method for handling safety events being processed.
 }
@@ -43,6 +47,7 @@ void ElevatorControlSystem::handleSafetyEvent(const std::string& code) {
 void ElevatorControlSystem::updateElevators() {
     for (Elevator* e: *elevators) {
         e->checkFloorArrival();
+        e->checkWeight();
         e->updateState();
 
         if (e->isMoving()) {

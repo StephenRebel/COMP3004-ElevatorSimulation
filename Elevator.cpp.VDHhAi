@@ -40,15 +40,9 @@ void Elevator::checkFloorArrival() {
 
 void Elevator::checkWeight() {
     if (currentWeight > maxWeight) {
-        Logger::log("Elevator " + std::to_string(id) + " exceeded maximum weight " + std::to_string(currentWeight) + "/" + std::to_string(maxWeight));
+        Logger::log("Elevator " + std::to_string(id) + " exceeded maximum weight " + std::to_string(maxWeight));
         dS->warningMessage("Warning overloaded. Please decrease weight to begin moving.");
         aS->playMessage("Warning overloaded. Please decrease weight to begin moving.");
-
-        while (currentWeight > maxWeight) {
-            ECS.overloadNotify(id);
-        }
-
-        Logger::log("Elevator " + std::to_string(id) + " weight reduced " + std::to_string(currentWeight) + "/" + std::to_string(maxWeight));
     }
 }
 

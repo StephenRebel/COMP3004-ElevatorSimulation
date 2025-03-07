@@ -1,5 +1,6 @@
 {
     "initial_floor": 3,
+    "initial_weight": 100,
     "actions": [
         {"timestep": 1, "action": "press_up", "destination": 4},
         {"timestep": 4, "action": "press_help"},
@@ -17,6 +18,7 @@
 Scenario 1: (Never more than 1 passenger on elevator, short trips), 7 floors, 2 elevators, 3 passengers
 {
 	"initial_floor": 2,
+	"initial_weight": 80,
 	"actions": [
 		{"timestep": 1, "action": "press_up", "destination": 4},
 		{"timestep": 12, "action": "press_down", "destination": 2}
@@ -25,6 +27,7 @@ Scenario 1: (Never more than 1 passenger on elevator, short trips), 7 floors, 2 
 
 {
 	"initial_floor": 6,
+	"initial_weight": 75,
 	"actions": [
 		{"timestep": 4, "action": "press_down", "destination": 3}
 	]
@@ -32,6 +35,7 @@ Scenario 1: (Never more than 1 passenger on elevator, short trips), 7 floors, 2 
 
 {
 	"initial_floor": 4,
+	"initial_weight": 100,
 	"actions": [
 		{"timestep": 6, "action": "press_up", "destination": 7}
 	]
@@ -40,6 +44,7 @@ Scenario 1: (Never more than 1 passenger on elevator, short trips), 7 floors, 2 
 Scenario 2: (Will be two passengers, passenger 3 joins 1) 8 floors, 2 elevators, 3 passengers
 {
 	"initial_floor": 1,
+	"initial_weight": 80,
 	"actions": [
 		{"timestep": 1, "action": "press_up", "destination": 5}
 	]
@@ -47,6 +52,7 @@ Scenario 2: (Will be two passengers, passenger 3 joins 1) 8 floors, 2 elevators,
 
 {
 	"initial_floor": 5,
+	"initial_weight": 110,
 	"actions": [
 		{"timestep": 2, "action": "press_down", "destination": 1}
 	]
@@ -54,6 +60,7 @@ Scenario 2: (Will be two passengers, passenger 3 joins 1) 8 floors, 2 elevators,
 
 {
 	"initial_floor": 4,
+	"initial_weight": 90,
 	"actions": [
 		{"timestep": 3, "action": "press_up", "destination": 7}
 	]

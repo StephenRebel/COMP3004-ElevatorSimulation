@@ -1,7 +1,7 @@
 #include "SimulationController.h"
 
 // Private constructor
-SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers, const std::string& safetyStr = "none", int safetyTime = -1):
+SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers, const std::string& safetyStr, int safetyTime):
     currentTimestep(0), isPaused(false), numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers), safetyEventCode(safetyStr), safetyEventTimestep(safetyTime) {
         building = new Building("Stephen", numFloors, numElevators, *this);
 
@@ -24,7 +24,7 @@ SimulationController::~SimulationController() {
 
 // Create a controller and parse incoming data to make sure it is at least somewhat valid.
 // Might still need to do bounds checking on passed in floors and such for actions.
-SimulationController* SimulationController::createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson, const std::string& safetyStr = "none", int safetyTime = -1) {
+SimulationController* SimulationController::createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson, const std::string& safetyStr, int safetyTime) {
     SimulationController* controller = new SimulationController(numFloors, numElevators, numPassengers, safetyStr, safetyTime);
     
     // Valid actions to parse in
@@ -35,14 +35,15 @@ SimulationController* SimulationController::createController(int numFloors, int 
             json parsedJson = json::parse(jsonStr);
 
             // Check for minimal passenger info fields
-            if (!parsedJson.contains("initial_floor") || !parsedJson.contains("actions")) {
+            if (!parsedJson.contains("initial_floor") || !parsedJson.contains("actions") || !parsedJson.contains("initial_weight")) {
                 qInfo("Error: Missing passenger initialization information.");
                 delete controller;
                 return nullptr;
             }
 
             int initialFloor = parsedJson["initial_floor"];
-            Passenger* p = new Passenger(initialFloor, controller->getBuilding());
+            int initialWeight = parsedJson["initial_weight"];
+            Passenger* p = new Passenger(initialFloor, initialWeight, controller->getBuilding());
             controller->passengers.push_back(p);
             int passengerID = p->getID();
             int numFloorReqs = 0;
@@ -94,6 +95,18 @@ void SimulationController::notifyPassengers(int elevatorID, int floor, int direc
             if (p->getElevatorID() == elevatorID && p->getDesiredFloor() == floor) {
                 p->disembarkElevator(floor);
             }
+        }
+    }
+}
+
+void SimulationController::requestWeightDrop(int elevatorID) { // For simulation purposes do this there are better ways but this works for providing idea of handling.
+    for (Passenger* p: passengers) {
+        if (p->isInElevator() && p->getElevatorID() == elevatorID) {
+            int weightDecrease = p->getCurrentWeight() * 0.5;
+            p->dropWeight(weightDecrease); // Like asking passenger to leave behind heavy item
+
+            Elevator* e = building->getElevator(elevatorID);
+            e->addRemoveWeight(-weightDecrease);
         }
     }
 }

@@ -27,8 +27,6 @@ void Passenger::enterElevator(Elevator* elevator) {
         Logger::log("Passenger " + std::to_string(id) + ": entering elevator " + std::to_string(elevator->getID()));
         inElevator = true;
         currentElevator = elevator;
-
-        elevator->addRemoveWeight(currentWeight); // Something like a sensor updating as the passenger walks in.
     }
 
     requestDestination(desiredFloor);
