@@ -23,7 +23,7 @@ class SimulationController : public QObject {
 
     public:
         // Static function to create a SimulationController
-        static SimulationController* createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson);
+        static SimulationController* createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson, const std::string& safetyStr = "none", int safetyTime = -1);
         ~SimulationController();
 
         void startSimulation();
@@ -41,7 +41,7 @@ class SimulationController : public QObject {
 
     private:
         // Private constructor to enforce the use of the static function
-        SimulationController(int numFloors, int numElevators, int numPassengers);
+        SimulationController(int numFloors, int numElevators, int numPassengers, const std::string& safetyStr = "none", int safetyTime = -1);
 
         // Simulation loop variables
         QTimer* simulationTimer;
@@ -55,6 +55,9 @@ class SimulationController : public QObject {
         int numFloors;
         int numElevators;
         int numPassengers;
+
+        std::string safetyEventCode;
+        int safetyEventTimestep;
 
         // Simulation loop functions and helpers
         void simulationStep();

@@ -31,6 +31,7 @@ private:
     QVBoxLayout* passengerLayout;
     QWidget* passengerContainer;
     QVector<QWidget*> passengerRows; // Track dynamically created rows
+    QScrollArea* scrollArea;
 
     QWidget* consoleScroll;
     QVBoxLayout* consoleLayout; // Frame for the output console
@@ -44,7 +45,7 @@ public slots:
 
 // Slots to recieve and manipulation use interaction
 private slots:
-    void on_safetyCheckbox_stateChanged(int state);
+    void onSafetyCheckboxStateChanged();
     void updatePassengerRows(int count);
     void onStartClick();
     void onPauseClick();

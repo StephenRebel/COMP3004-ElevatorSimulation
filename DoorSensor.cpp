@@ -7,4 +7,4 @@ bool DoorSensor::detectObstacle() {
     std::bernoulli_distribution distribution(0.75);
     
     return distribution(generator);
-}
+} // Not sure if this is actually doing anything right now

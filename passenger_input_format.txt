@@ -14,7 +14,7 @@
 	]
 }
 
-Scenario 1: (Never more than 1 passenger on elevator, short trips)
+Scenario 1: (Never more than 1 passenger on elevator, short trips), 7 floors, 2 elevators, 3 passengers
 {
 	"initial_floor": 2,
 	"actions": [
@@ -37,7 +37,7 @@ Scenario 1: (Never more than 1 passenger on elevator, short trips)
 	]
 }
 
-Scenario 2: (Will be two passengers, passenger 3 joins 1)
+Scenario 2: (Will be two passengers, passenger 3 joins 1) 8 floors, 2 elevators, 3 passengers
 {
 	"initial_floor": 1,
 	"actions": [

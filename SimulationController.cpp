@@ -1,8 +1,8 @@
 #include "SimulationController.h"
 
 // Private constructor
-SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers):
-    currentTimestep(0), isPaused(false), numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers) {
+SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers, const std::string& safetyStr = "none", int safetyTime = -1):
+    currentTimestep(0), isPaused(false), numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers), safetyEventCode(safetyStr), safetyEventTimestep(safetyTime) {
         building = new Building("Stephen", numFloors, numElevators, *this);
 
         Logger::setController(this);
@@ -24,8 +24,8 @@ SimulationController::~SimulationController() {
 
 // Create a controller and parse incoming data to make sure it is at least somewhat valid.
 // Might still need to do bounds checking on passed in floors and such for actions.
-SimulationController* SimulationController::createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson) {
-    SimulationController* controller = new SimulationController(numFloors, numElevators, numPassengers);
+SimulationController* SimulationController::createController(int numFloors, int numElevators, int numPassengers, const std::vector<std::string>& passengersJson, const std::string& safetyStr = "none", int safetyTime = -1) {
+    SimulationController* controller = new SimulationController(numFloors, numElevators, numPassengers, safetyStr, safetyTime);
     
     // Valid actions to parse in
     std::vector<std::string> validActions{"press_up", "press_down", "press_help", "press_open_door", "press_close_door"};

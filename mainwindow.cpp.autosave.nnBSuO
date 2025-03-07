@@ -24,14 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->consoleScrollArea->setWidgetResizable(true); // Figure out this stupid scrolling console later, I don't know why but it won't scroll just squeeze everythig and is a piece of trash.
     ui->consoleScrollArea->setWidget(consoleScroll);
 
-    connect(ui->safetyCheckbox, &QCheckBox::stateChanged, this, &MainWindow::onSafetyCheckboxStateChanged);
-
     // Connect passengersInput QSpinBox to update function
     connect(ui->passengersInput, QOverload<int>::of(&QSpinBox::valueChanged),
             this, &MainWindow::updatePassengerRows);
 
-    // Connect start button to control buttons function
+    // Connect start button to onStartClick function
     connect(ui->startButton, &QPushButton::clicked, this, &MainWindow::onStartClick);
+
+    // Conect pause button
     connect(ui->pauseButton, &QPushButton::clicked, this, &MainWindow::onPauseClick);
     connect(ui->resumeButton, &QPushButton::clicked, this, &MainWindow::onResumeClick);
     connect(ui->stopButton, &QPushButton::clicked, this, &MainWindow::onStopClick);
@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
     delete controller;
 
-    // Attempting to remove the passengerContainer and sub widgets we create which Valgrind points to but still seems to persist.
     delete passengerContainer;
     delete scrollArea;
 
@@ -63,24 +62,24 @@ void MainWindow::onLogMessage(const std::string& message) {
     appendMessageConsole(message);
 }
 
-void MainWindow::onSafetyCheckboxStateChanged() {
+void MainWindow::on_safetyCheckbox_stateChanged(int state)
+{
     // Enable/disable the safety event planner section based on checkbox state
-    ui->safetyFrame->setEnabled(ui->safetyCheckbox->isChecked());
+    ui->safetyFrame->setEnabled(state == Qt::Checked);
 }
 
-void MainWindow::updatePassengerRows(int count) {
+void MainWindow::updatePassengerRows(int count)
+{
     // Remove excess rows if passengersInput decreased
     while (passengerRows.size() > count) {
         QWidget *rowWidget = passengerRows.takeLast();
         passengerLayout->removeWidget(rowWidget);
 
-        // Trying to clean up some possible memory leaks persists despite my efforts
-        // Valgrind points to the jsonInput widget created.
+        // Trying to clean up some possible memory leaks
         for (QObject* child: rowWidget->children()) {
-            disconnect(child, nullptr, nullptr, nullptr);
             QWidget* widget = qobject_cast<QWidget*>(child);
             if (widget) {
-                delete widget;
+                
             }
         }
 
@@ -116,19 +115,6 @@ void MainWindow::onStartClick() {
     int numElevators = ui->elevatorsInput->value();
     int numPassengers = ui->passengersInput->value();
 
-    bool safetyConditionProvided = ui->safetyCheckbox->isChecked();
-    std::string safetyEventStr = "none";
-    int safetyEventTimestep = -1;
-    if (safetyConditionProvided) {
-        if (ui->fireButton->) {
-            safetyEventStr = "fire";
-            safetyEventTimestep = ui->fireInput->value();
-        } else if (ui->powerOutButton) {
-            safetyEventStr = "powerout";
-            safetyEventTimestep = ui->powerOutInput->value();
-        } // Might think of how to do overload
-    }
-
     // Passenger JSON collection
     std::vector<std::string> passengersJson;
     for (QWidget* rowWidget : passengerRows) {
@@ -139,7 +125,7 @@ void MainWindow::onStartClick() {
     }
 
     // Get controller, will validate passed data in here returning a controller or nullptr in fail
-    controller = SimulationController::createController(numFloors, numElevators, numPassengers, passengersJson, safetyEventStr, safetyEventTimestep);
+    controller = SimulationController::createController(numFloors, numElevators, numPassengers, passengersJson);
     if (controller) {
         connect(controller, &SimulationController::logToConsoleSignal, this, &MainWindow::onLogMessage);
         connect(controller, &SimulationController::simulationEndedSignal, this, &MainWindow::onSimulationEnded);

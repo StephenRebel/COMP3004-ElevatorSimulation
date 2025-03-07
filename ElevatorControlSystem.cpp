@@ -3,7 +3,7 @@
 
 ElevatorControlSystem::ElevatorControlSystem(SimulationController& sC): elevators(nullptr), simController(sC), safetyEventOccuring(false) {}
 
-Elevator* ElevatorControlSystem::assignElevator(int floor, int direction) {
+void ElevatorControlSystem::assignElevator(int floor, int direction) {
     Elevator* bestElevator = nullptr;
     int minDistance = INT_MAX;
 
@@ -29,7 +29,6 @@ Elevator* ElevatorControlSystem::assignElevator(int floor, int direction) {
 
     Logger::log("Elevator Control System deemed elevator " + std::to_string(bestElevator->getID()) + " for request to floor " + std::to_string(floor));
     bestElevator->addDestination(floor);
-    return bestElevator; // I don't actually use this instead I use a broadcasting sort of to let any passenger at that floor know an elevator arrived.
 }
 
 void ElevatorControlSystem::elevatorArrived(int elevatorID, int floor, int direction) {

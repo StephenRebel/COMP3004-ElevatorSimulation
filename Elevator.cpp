@@ -73,7 +73,7 @@ void Elevator::pressOpenDoor() {
 void Elevator::closeDoor() {
     int failures = 0;
 
-    while (!eD->close()) {
+    while (not eD->close()) {
         Logger::log("Elevator " + std::to_string(id) + " door sensor blocked. Retrying...");
         failures++;
 
