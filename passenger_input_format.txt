@@ -8,8 +8,55 @@
 }
 
 {
-    "initial_floor": 1,
+	"initial_floor": ,
 	"actions": [
-		{"timestep": 1, "action": "press_up", "destination": 4}
+		{"timestep": , "action": , "destination": }
 	]
 }
+
+Scenario 1: (Never more than 1 passenger on elevator, short trips)
+{
+	"initial_floor": 2,
+	"actions": [
+		{"timestep": 1, "action": "press_up", "destination": 4},
+		{"timestep": 12, "action": "press_down", "destination": 2}
+	]
+}
+
+{
+	"initial_floor": 6,
+	"actions": [
+		{"timestep": 4, "action": "press_down", "destination": 3}
+	]
+}
+
+{
+	"initial_floor": 4,
+	"actions": [
+		{"timestep": 6, "action": "press_up", "destination": 7}
+	]
+}
+
+Scenario 2: (Will be two passengers, passenger 3 joins 1)
+{
+	"initial_floor": 1,
+	"actions": [
+		{"timestep": 1, "action": "press_up", "destination": 5}
+	]
+}
+
+{
+	"initial_floor": 5,
+	"actions": [
+		{"timestep": 2, "action": "press_down", "destination": 1}
+	]
+}
+
+{
+	"initial_floor": 4,
+	"actions": [
+		{"timestep": 3, "action": "press_up", "destination": 7}
+	]
+}
+
+Scenario 3: (Passenger 2 join 3)

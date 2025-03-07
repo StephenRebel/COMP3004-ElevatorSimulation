@@ -16,10 +16,22 @@ void FloorPanel::pressDown() {
 }
 
 void FloorPanel::deIlluminate(int direction) {
-    if (direction > 0) {
+    // Not sure how to get floor 1 to turn off right now.
+    if (direction > 0 && isIlluminatedUp) {
+        Logger::log("Floor " + std::to_string(floorID) + ": Illuminated up button turns off.");
         isIlluminatedUp = false;
-    } else {
+    } else if (direction < 0 && isIlluminatedDown){
+        Logger::log("Floor " + std::to_string(floorID) + ": Illuminated down button turns off.");
         isIlluminatedDown = false;
+    } else { // handle case where elevator is idle on a floor and passenger on same floor enters request and gets in idle elevator.
+        if (isIlluminatedUp) {
+            Logger::log("Floor " + std::to_string(floorID) + ": Illuminated up button turns off.");
+            isIlluminatedUp = false;
+        }
+
+        if (isIlluminatedDown) {
+            Logger::log("Floor " + std::to_string(floorID) + ": Illuminated down button turns off.");
+            isIlluminatedDown = false;
+        }
     }
-    Logger::log("Floor " + std::to_string(floorID) + ": Illuminated " + (direction > 0 ? "UP" : "DOWN") + " button turns off.");
 }

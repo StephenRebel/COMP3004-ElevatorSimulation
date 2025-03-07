@@ -3,7 +3,7 @@
 int Passenger::LastestID = 0;
 
 Passenger::Passenger(int initial_floor_num, Building& building):
-    id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), finalFloor(-1), currentElevator(nullptr), building(building) {}
+    id(++LastestID), currentFloorNum(initial_floor_num), desiredDirection(0), desiredFloor(-1), inElevator(false), finalFloor(-1), totalRequests(-1), currentElevator(nullptr), building(building) {}
 
 void Passenger::requestElevator(int direction, int floor) {
     if (!inElevator){
@@ -33,6 +33,8 @@ void Passenger::enterElevator(Elevator* elevator) {
 }
 
 void Passenger::disembarkElevator(int floor) {
+    Logger::log("Passenger " + std::to_string(id) + ": exiting elevator " + std::to_string(currentElevator->getID()) + " on floor " + std::to_string(floor));
+
     inElevator = false;
     currentElevator = nullptr;
 
@@ -43,7 +45,9 @@ void Passenger::disembarkElevator(int floor) {
 
 void Passenger::requestDestination(int floor) {
     if (inElevator) {
+        Logger::log("Passenger " + std::to_string(id) + ": requesting floor " + std::to_string(floor));
         currentElevator->pressFloor(floor);
+        totalRequests--;
     }
 }
 

@@ -28,9 +28,11 @@ class Passenger {
         bool isInElevator() const { return inElevator; }
         int getElevatorID() const { return currentElevator->getID(); }
         int getDesiredFloor() const { return desiredFloor; }
-        bool isAtFinalFloor() { return currentFloorNum == finalFloor; }
+        bool isAtFinalFloor() { return (currentFloorNum == finalFloor) && (totalRequests == 0); } // Final floor meaning they are at the final location and don't have anymore floor requests to make.
+        bool hasRequest() { return desiredFloor != -1; } // If they don't want to go anywhere right now they are listed as -1.
 
         void setFinalFloor(int floor) { finalFloor = floor; }
+        void setNumRequests(int reqs) { totalRequests = reqs; }
 
         std::string reportState() const;
 
@@ -41,6 +43,7 @@ class Passenger {
         int desiredFloor;
         bool inElevator;
         int finalFloor;
+        int totalRequests; // Total floor requests left a Passenger wants to make.
 
         Elevator* currentElevator;
         Building& building;

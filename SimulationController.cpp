@@ -45,6 +45,7 @@ SimulationController* SimulationController::createController(int numFloors, int 
             Passenger* p = new Passenger(initialFloor, controller->getBuilding());
             controller->passengers.push_back(p);
             int passengerID = p->getID();
+            int numFloorReqs = 0;
 
             // Parse out passenger actions
             for (const json& actionJson : parsedJson["actions"]) {
@@ -68,8 +69,11 @@ SimulationController* SimulationController::createController(int numFloors, int 
 
                 if (floor != -1) {
                     p->setFinalFloor(floor);
+                    numFloorReqs++;
                 }
             }
+
+            p->setNumRequests(numFloorReqs); // Number of floor requests
         }
     } catch (const std::exception& e) { // Catch any general error during parsing.
         qInfo() << "JSON parsing error: " << e.what();
@@ -83,7 +87,7 @@ SimulationController* SimulationController::createController(int numFloors, int 
 void SimulationController::notifyPassengers(int elevatorID, int floor, int direction) {
     for (Passenger* p: passengers) {
         if (!p->isInElevator()) {
-            if (p->getCurrentFloor() == floor && (p->getDesiredDirection() == direction || direction == 0)) {
+            if (p->getCurrentFloor() == floor && (p->getDesiredDirection() == direction || direction == 0) && (p->hasRequest() && not p->isAtFinalFloor())) { // Just being very sure passenger does not get on an elevator they don't want to
                 p->notifyElevatorArrival(elevatorID);
             }
         } else {
