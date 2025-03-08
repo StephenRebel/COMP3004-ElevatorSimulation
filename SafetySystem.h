@@ -12,6 +12,7 @@ class SafetySystem {
         SafetySystem();
 
         void triggerAlarm(const std::string& code);
+        void connectOperator(int code);
 
     private:
         std::vector<std::string> activeAlarms;

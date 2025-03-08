@@ -21,6 +21,7 @@ class ElevatorControlSystem {
         void updateElevators();
 
         void handleSafetyEvent(const std::string& code, int safeFloor);
+        void connectToOperator(int elevatorId, int code);
         std::string reportState() const;
 
         void setElevators(std::vector<Elevator*>& e);

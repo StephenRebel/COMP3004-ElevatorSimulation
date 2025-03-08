@@ -37,6 +37,8 @@ void Passenger::enterElevator(Elevator* elevator) {
 void Passenger::disembarkElevator(int floor) {
     Logger::log("Passenger " + std::to_string(id) + ": exiting elevator " + std::to_string(currentElevator->getID()) + " on floor " + std::to_string(floor));
 
+    currentElevator->addRemoveWeight(-currentWeight);
+
     inElevator = false;
     currentElevator = nullptr;
 
@@ -53,9 +55,9 @@ void Passenger::requestDestination(int floor) {
     }
 }
 
-void Passenger::pressHelp() {
+void Passenger::pressHelp(int emergencyCode) {
     if (inElevator) {
-        currentElevator->pressHelp();
+        currentElevator->pressHelp(emergencyCode);
     }
 }
 

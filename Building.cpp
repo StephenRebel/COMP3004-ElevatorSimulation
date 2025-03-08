@@ -51,3 +51,8 @@ void Building::updateECS() {
 std::string Building::reportECS() const {
     return ECS->reportState();
 }
+
+void Building::connectBuildingSafety(int eID, int code) {
+    // elevators[eID]->
+    safetySys->connectOperator(code);
+}

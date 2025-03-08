@@ -32,7 +32,7 @@ class Elevator {
         void pressOpenDoor();
         void pressCloseDoor();
         void pressFloor(int floor);
-        void pressHelp();
+        void pressHelp(int helpCode);
 
         int getCurrentFloor();
         bool isMoving();

@@ -108,8 +108,17 @@ void Elevator::pressFloor(int floor) {
     updateState();
 }
 
-void Elevator::pressHelp() {
-    Logger::log("Elevator " + std::to_string(id) + ": help button pressed. Conecting to operator... Conversation terminated.");
+void Elevator::pressHelp(int helpCode) {
+    Logger::log("Elevator " + std::to_string(id) + ": help button pressed.");
+    if (helpCode == 0) {
+        aS->connectToOperator();
+        ECS.connectToOperator(id, helpCode);
+        Logger::log("Passenger chats with safety operator");
+    } else if (helpCode == 1) {
+        // passenger unresponsive
+    } else if (helpCode == 2) {
+        // staff unresponsive
+    }
 }
 
 void Elevator::updateDisplays() {

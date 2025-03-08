@@ -19,7 +19,7 @@ class Passenger {
         void requestDestination(int floor);
         void holdDoor();
         void closeDoor();
-        void pressHelp();
+        void pressHelp(int emergencyCode);
         void notifyElevatorArrival(int elevatorID);
 
         int getID() const { return id; }

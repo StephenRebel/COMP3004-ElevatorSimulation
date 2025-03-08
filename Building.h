@@ -22,6 +22,7 @@ class Building {
         void triggerPowerOut();
         void updateECS();
         std::string reportECS() const;
+        void connectBuildingSafety(int eID, int code);
 
         FloorPanel& getFloorPanel(int floor) { return *(floors[floor - 1]); } // -1 for 1 based indexing of floors
         Elevator* getElevator(int elevatorID) { return elevators[elevatorID]; }

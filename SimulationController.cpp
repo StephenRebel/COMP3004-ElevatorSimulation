@@ -63,7 +63,8 @@ SimulationController* SimulationController::createController(int numFloors, int 
                 }
 
                 int floor = actionJson.value("destination", -1);
-                Action actionEntry = Action(passengerID, actionJson["action"], floor);
+                int code = actionJson.value("code", -1);
+                Action actionEntry = Action(passengerID, actionJson["action"], floor, code);
                 
                 int timestep = actionJson["timestep"];
                 controller->eventQueue[timestep].push_back(actionEntry);
@@ -162,7 +163,7 @@ void SimulationController::processPassengerActions() {
             } else if (action.action == "press_close_door") {
                 passenger->closeDoor();
             } else if (action.action == "press_help") {
-                passenger->pressHelp();
+                passenger->pressHelp(action.code);
             } else {
                 qInfo() << "Passenger " << passenger->getID() << ": attemtped invalid action: " << QString::fromStdString(action.action);
             }

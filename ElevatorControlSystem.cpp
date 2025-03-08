@@ -49,6 +49,11 @@ void ElevatorControlSystem::handleSafetyEvent(const std::string& code, int safeF
     }
 }
 
+void ElevatorControlSystem::connectToOperator(int elevatorId, int code) {
+    Logger::log("Elevator Control System connecting elevator " + std::to_string(elevatorId) + " to safety operator.");
+    simController.getBuilding().connectBuildingSafety(elevatorId, code);
+}
+
 void ElevatorControlSystem::updateElevators() {
     for (Elevator* e: *elevators) {
         e->checkFloorArrival();

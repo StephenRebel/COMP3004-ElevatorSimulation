@@ -6,11 +6,12 @@
 class Action {
     
     public:
-        Action(int pID, const std::string& action, int dest);
+        Action(int pID, const std::string& action, int dest, int code);
 
         int passengerID;
         std::string action;
         int destination;
+        int code;
 };
 
 #endif // ACTION_H

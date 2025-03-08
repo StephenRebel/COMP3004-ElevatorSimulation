@@ -11,5 +11,5 @@ void AudioSystem::playMessage(const std::string& message) const {
 }
 
 void AudioSystem::connectToOperator() const {
-    Logger::log("Elevator " + std::to_string(elevatorID) + ": Connecting to operator...\nCommunicating with operator...\nConnection closed.");
+    Logger::log("Elevator " + std::to_string(elevatorID) + ": Connecting to operator...");
 }

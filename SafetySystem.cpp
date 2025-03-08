@@ -14,3 +14,13 @@ void SafetySystem::triggerAlarm(const std::string& code) {
         Logger::log("Safety System: Activating emergency power systems");
     }
 }
+
+void SafetySystem::connectOperator(int code) {
+    if (code == 0) {
+        Logger::log("Safety Operator chats with passenger.");
+    } else if (code == 1) {
+
+    } else if (code == 2) {
+
+    }
+}
