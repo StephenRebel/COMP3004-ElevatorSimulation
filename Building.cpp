@@ -31,15 +31,15 @@ Building::~Building() {
 }
 
 void Building::pullFireAlarm() {
+    Logger::log("Building: Fire alarm was pulled.");
     safetySys->triggerAlarm("fire");
-    Logger::log("Fire alarm was pulled.");
 
     ECS->handleSafetyEvent("fire", safeFloor);
 }
 
 void Building::triggerPowerOut() {
     safetySys->triggerAlarm("powerout");
-    Logger::log("Power otage occured.");
+    Logger::log("Building: Power outage occured.");
 
     ECS->handleSafetyEvent("powerout", safeFloor);
 }

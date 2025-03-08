@@ -42,6 +42,7 @@ void ElevatorControlSystem::overloadNotify(int elevatorID) {
 
 void ElevatorControlSystem::handleSafetyEvent(const std::string& code, int safeFloor) {
     Logger::log("Elevator control sysetem handling " + code + " safety event.");
+    safetyEventOccuring = true;
 
     for (Elevator* e: *elevators) {
         e->triggerAlarm(code, safeFloor);
@@ -67,7 +68,7 @@ void ElevatorControlSystem::setElevators(std::vector<Elevator *> &e) {
 
 std::string ElevatorControlSystem::reportState() const {
     if (safetyEventOccuring) {
-        return "Elevator Control System handling safey condition"; //Might want to report later what condition not worrying for now
+        return "Elevator Control System handling safey condition";
     } else {
         return "Elevator Control System operating normally";
     }

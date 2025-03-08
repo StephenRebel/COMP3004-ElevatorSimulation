@@ -10,6 +10,7 @@
 
 {
 	"initial_floor": ,
+	"initial_weight": ,
 	"actions": [
 		{"timestep": , "action": , "destination": }
 	]
@@ -66,4 +67,30 @@ Scenario 2: (Will be two passengers, passenger 3 joins 1) 8 floors, 2 elevators,
 	]
 }
 
-Scenario 3: (Passenger 2 join 3)
+Scenario 3: (Fire/Power outage during travel of passengers 2 and 3), 9 floors, 2 elevators, 3 passengers
+Enable safety events select Fire alarm or Power outage, timestep: 12
+{
+	"initial_floor": 6,
+	"initial_weight": 65,
+	"actions": [
+		{"timestep": 10, "action": "press_down", "destination": 4}
+	]
+}
+
+{
+	"initial_floor": 9,
+	"initial_weight": 95,
+	"actions": [
+		{"timestep": 1, "action": "press_down", "destination": 3}
+	]
+}
+
+{
+	"initial_floor": 2,
+	"initial_weight": 80,
+	"actions": [
+		{"timestep": 8, "action": "press_up", "destination": 3}
+	]
+}
+
+Scenario 4: (Passenger 2 join 3) 

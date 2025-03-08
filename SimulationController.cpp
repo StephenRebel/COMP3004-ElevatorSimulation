@@ -181,16 +181,18 @@ void SimulationController::checkAndTriggerEvents() {
             safetyActive = true;
             building->pullFireAlarm();
             updatePassengerDestination(building->getSafeFloor());
+            eventQueue.clear();
         } else if (safetyEventCode == "powerout") {
             safetyActive = true;
             building->triggerPowerOut();
             updatePassengerDestination(building->getSafeFloor());
+            eventQueue.clear();
         }
     }
 }
 
 void SimulationController::updatePassengerDestination(int safeFloor) {
-    Logger::log("Overwritting passenger beahviour for safety");
+    Logger::log("Passengers will now go to " + std::to_string(safeFloor) + " if on an elevator or should exit the building.");
     for (Passenger* p: passengers) {
         if (p->isInElevator()) {
             p->safetyOverrideElev(safeFloor);
@@ -235,6 +237,7 @@ void SimulationController::startSimulation() {
     logToConsole("Simulation started with " + std::to_string(numFloors) + " floors, " + std::to_string(numElevators) + " elevators, and " + std::to_string(numPassengers) + " passengers.");
 
     // View event list for now
+    logToConsole("----- Passenger Actions -----");
     for (auto it = eventQueue.begin(); it != eventQueue.end(); ++it) {
         int eventTime = it->first;
         const std::vector<Action>& actions = it->second;
@@ -244,6 +247,11 @@ void SimulationController::startSimulation() {
             logToConsole("  Passenger ID: " + std::to_string(action.passengerID) + ", Action: " + action.action + ", Destination: " + std::to_string(action.destination));
         }
         logToConsole("------------------------");
+    }
+
+    if (safetyEventCode != "none") {
+        logToConsole("----- Safety Events -----");
+        logToConsole("Event: " + safetyEventCode + ", Timestep: " + std::to_string(safetyEventTimestep));
     }
 
     logToConsole("--------Simulation steps beggining--------");
