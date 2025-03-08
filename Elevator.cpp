@@ -38,7 +38,7 @@ void Elevator::checkFloorArrival() {
     }
 }
 
-void Elevator::checkWeight() {
+void Elevator::checkWeight() { // Perhaps could have stored passenger pointer in elevator or ecs and would make this all easier but that would also prompt a rework of entire system.
     if (currentWeight > maxWeight) {
         Logger::log("Elevator " + std::to_string(id) + " exceeded maximum weight " + std::to_string(currentWeight) + "/" + std::to_string(maxWeight));
         dS->warningMessage("Warning overloaded. Please decrease weight to begin moving.");

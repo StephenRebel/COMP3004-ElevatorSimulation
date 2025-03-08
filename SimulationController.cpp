@@ -170,7 +170,13 @@ void SimulationController::processElevatorSystemUpdates() {
 }
 
 void SimulationController::checkAndTriggerEvents() {
-    // Function to be implemented for safety conditions.
+    if (safetyEventTimestep == currentTimestep) {
+        if (safetyEventCode == "fire") {
+
+        } else if (safetyEventCode == "powerout") {
+
+        }
+    }
 }
 
 void SimulationController::reportSystemState() {

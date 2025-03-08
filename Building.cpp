@@ -11,7 +11,7 @@ Building::Building(const std::string& owner, int nF, int nE, SimulationControlle
     }
 
     for (int i = 0; i < numElevators; i++) {
-        elevators.push_back(new Elevator(i, *ECS));
+        elevators.push_back(new Elevator(i, 600, *ECS)); // For now just setting max weight to default 600 units say kg.
     }
 
     ECS->setElevators(elevators);

@@ -119,14 +119,15 @@ void MainWindow::onStartClick() {
     bool safetyConditionProvided = ui->safetyCheckbox->isChecked();
     std::string safetyEventStr = "none";
     int safetyEventTimestep = -1;
+
     if (safetyConditionProvided) {
-        if (ui->fireButton->) {
+        if (ui->fireButton->isChecked()) {
             safetyEventStr = "fire";
-            safetyEventTimestep = ui->fireInput->value();
-        } else if (ui->powerOutButton) {
+            safetyEventTimestep = ui->fireInput->text().toInt();
+        } else if (ui->powerOutButton->isChecked()) {
             safetyEventStr = "powerout";
-            safetyEventTimestep = ui->powerOutInput->value();
-        } // Might think of how to do overload
+            safetyEventTimestep = ui->powerOutInput->text().toInt();
+        }
     }
 
     // Passenger JSON collection
