@@ -2,7 +2,7 @@
 #include "SimulationController.h"
 
 Building::Building(const std::string& owner, int nF, int nE, SimulationController& sC):
-    owner(owner), numFloors(nF), numElevators(nE), ECS(nullptr), safetySys(new SafetySystem()), simController(sC) {
+    owner(owner), numFloors(nF), numElevators(nE), safeFloor(1), ECS(nullptr), safetySys(new SafetySystem()), simController(sC) {
 
     ECS = new ElevatorControlSystem(sC);
 
@@ -33,6 +33,15 @@ Building::~Building() {
 void Building::pullFireAlarm() {
     safetySys->triggerAlarm("fire");
     Logger::log("Fire alarm was pulled.");
+
+    ECS->handleSafetyEvent("fire", safeFloor);
+}
+
+void Building::triggerPowerOut() {
+    safetySys->triggerAlarm("powerout");
+    Logger::log("Power otage occured.");
+
+    ECS->handleSafetyEvent("powerout", safeFloor);
 }
 
 void Building::updateECS() {

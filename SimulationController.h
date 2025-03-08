@@ -59,13 +59,15 @@ class SimulationController : public QObject {
 
         std::string safetyEventCode;
         int safetyEventTimestep;
+        bool safetyActive;
 
         // Simulation loop functions and helpers
         void simulationStep();
 
         void processPassengerActions();
         void processElevatorSystemUpdates();
-        void checkAndTriggerEvents(); // This is intended for safety events in the future.
+        void checkAndTriggerEvents();
+        void updatePassengerDestination(int safeFloor);
         void reportSystemState();
         void checkSimulationCompletion();
 

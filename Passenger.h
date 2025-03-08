@@ -35,6 +35,8 @@ class Passenger {
         void dropWeight(int amount);
         void setFinalFloor(int floor) { finalFloor = floor; }
         void setNumRequests(int reqs) { totalRequests = reqs; }
+        void safetyOverrideElev(int safeFloor);
+        void safetyOverrideFloor();
 
         std::string reportState() const;
 

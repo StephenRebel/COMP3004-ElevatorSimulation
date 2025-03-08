@@ -19,17 +19,21 @@ class Building {
         ~Building();
 
         void pullFireAlarm();
+        void triggerPowerOut();
         void updateECS();
         std::string reportECS() const;
 
         FloorPanel& getFloorPanel(int floor) { return *(floors[floor - 1]); } // -1 for 1 based indexing of floors
         Elevator* getElevator(int elevatorID) { return elevators[elevatorID]; }
+        int getSafeFloor() { return safeFloor; }
         std::vector<Elevator*>& getElevators() { return elevators; }
 
     private:
         std::string owner;
         int numFloors;
         int numElevators;
+
+        int safeFloor; // Hardcoding safe floor, could pass it but makes no difference.
 
         std::vector<Elevator*> elevators;
         std::vector<FloorPanel*> floors;

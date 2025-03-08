@@ -22,7 +22,7 @@ class Elevator {
         void move();
         void checkFloorArrival();
         void updateDisplays();
-        void triggerAlarm(const std::string& code);
+        void triggerAlarm(const std::string& code, int safeFloor);
         void addDestination(int dest);
         void updateState();
         void checkWeight();

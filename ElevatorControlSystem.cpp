@@ -40,8 +40,12 @@ void ElevatorControlSystem::overloadNotify(int elevatorID) {
     simController.requestWeightDrop(elevatorID);
 }
 
-void ElevatorControlSystem::handleSafetyEvent(const std::string& code) {
-    // Method for handling safety events being processed.
+void ElevatorControlSystem::handleSafetyEvent(const std::string& code, int safeFloor) {
+    Logger::log("Elevator control sysetem handling " + code + " safety event.");
+
+    for (Elevator* e: *elevators) {
+        e->triggerAlarm(code, safeFloor);
+    }
 }
 
 void ElevatorControlSystem::updateElevators() {

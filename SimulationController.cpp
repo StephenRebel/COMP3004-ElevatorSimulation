@@ -2,7 +2,7 @@
 
 // Private constructor
 SimulationController::SimulationController(int numFloors, int numElevators, int numPassengers, const std::string& safetyStr, int safetyTime):
-    currentTimestep(0), isPaused(false), numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers), safetyEventCode(safetyStr), safetyEventTimestep(safetyTime) {
+    currentTimestep(0), isPaused(false), numFloors(numFloors), numElevators(numElevators), numPassengers(numPassengers), safetyEventCode(safetyStr), safetyEventTimestep(safetyTime), safetyActive(false) {
         building = new Building("Stephen", numFloors, numElevators, *this);
 
         Logger::setController(this);
@@ -121,12 +121,17 @@ void SimulationController::simulationStep() {
     logToConsole("---------- Timestep: " + std::to_string(currentTimestep) + " ----------");
 
     // Might want try catch for any errors.
-    processPassengerActions();
+    if (!safetyActive) {
+        processPassengerActions();
+    }
 
     processElevatorSystemUpdates();
 
-    checkAndTriggerEvents();
+    if (!safetyActive) {
+        checkAndTriggerEvents();
+    }
 
+    Logger::log("------- System Report -------");
     reportSystemState();
 
     checkSimulationCompletion();
@@ -172,9 +177,25 @@ void SimulationController::processElevatorSystemUpdates() {
 void SimulationController::checkAndTriggerEvents() {
     if (safetyEventTimestep == currentTimestep) {
         if (safetyEventCode == "fire") {
-
+            // Can add logging if not enough elsewhere
+            safetyActive = true;
+            building->pullFireAlarm();
+            updatePassengerDestination(building->getSafeFloor());
         } else if (safetyEventCode == "powerout") {
+            safetyActive = true;
+            building->triggerPowerOut();
+            updatePassengerDestination(building->getSafeFloor());
+        }
+    }
+}
 
+void SimulationController::updatePassengerDestination(int safeFloor) {
+    Logger::log("Overwritting passenger beahviour for safety");
+    for (Passenger* p: passengers) {
+        if (p->isInElevator()) {
+            p->safetyOverrideElev(safeFloor);
+        } else {
+            p->safetyOverrideFloor();
         }
     }
 }

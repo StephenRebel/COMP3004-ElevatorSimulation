@@ -20,7 +20,7 @@ class ElevatorControlSystem {
         void overloadNotify(int elevatorID);
         void updateElevators();
 
-        void handleSafetyEvent(const std::string& code);
+        void handleSafetyEvent(const std::string& code, int safeFloor);
         std::string reportState() const;
 
         void setElevators(std::vector<Elevator*>& e);

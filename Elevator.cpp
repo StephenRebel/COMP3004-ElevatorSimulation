@@ -109,7 +109,7 @@ void Elevator::pressFloor(int floor) {
 }
 
 void Elevator::pressHelp() {
-    Logger::log("Elevator " + std::to_string(id) + " help button pressed. Conecting to operator... Conversation terminated.");
+    Logger::log("Elevator " + std::to_string(id) + ": help button pressed. Conecting to operator... Conversation terminated.");
 }
 
 void Elevator::updateDisplays() {
@@ -117,8 +117,19 @@ void Elevator::updateDisplays() {
     aS->playMessage("floor " + std::to_string(currentFloor));
 }
 
-void Elevator::triggerAlarm(const std::string& code) {
-    // handle different allarms, like fire etc.
+void Elevator::triggerAlarm(const std::string& code, int safeFloor) {
+    Logger::log("Elevator " + std::to_string(id) + ": handling " + code + " safety event.");
+    std::string upper = code;
+    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+
+    dS->warningMessage(upper + " ALARM: proceeding to safe floor " + std::to_string(safeFloor));
+    aS->playMessage(upper + " ALARM: proceeding to safe floor " + std::to_string(safeFloor));
+
+    destinations.clear();
+
+    if (currentFloor != safeFloor) {
+        destinations.push_back(safeFloor);
+    }
 }
 
 void Elevator::addDestination(int dest) {

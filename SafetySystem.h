@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "Logger.h"
+
 class SafetySystem {
 
     public:

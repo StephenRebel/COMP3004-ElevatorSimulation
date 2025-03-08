@@ -81,6 +81,20 @@ void Passenger::dropWeight(int amount) {
     }
 }
 
+void Passenger::safetyOverrideElev(int safeFloor) { // Overriding passenger intentions for safety event.
+    finalFloor = safeFloor;
+    desiredDirection = 0;
+    desiredFloor = safeFloor;
+    totalRequests = 0;
+}
+
+void Passenger::safetyOverrideFloor() { // Overriding passenger actions for on floor.
+    finalFloor = currentFloorNum;
+    desiredDirection = 0;
+    desiredFloor = -1;
+    totalRequests = 0;
+}
+
 std::string Passenger::reportState() const {
     std::string report = "Passenger: " + std::to_string(id) + ", ";
 
