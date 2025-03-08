@@ -39,6 +39,7 @@ class Elevator {
         int getDirection();
         std::vector<int>& getFloorQueue();
         int getID() { return id; }
+        bool isAvailable() { return available; };
 
         void addRemoveWeight(int weight); // Positive or negative weight amount to add to current weight. Would noramlly be a sensor but I don't have those.
 
@@ -52,6 +53,7 @@ class Elevator {
         std::vector<int> destinations;
         bool activeState; // These two states are the implementation of the state: Enum, this seems better.
         int movingDirection; // < 0 for down, 0 > for up.
+        bool available;
         
         ElevatorDoor* eD;
         FloorSensor* fS;

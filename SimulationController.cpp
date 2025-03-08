@@ -203,6 +203,33 @@ void SimulationController::updatePassengerDestination(int safeFloor) {
     }
 }
 
+void SimulationController::notifyHelpEvent(int elevatorID) {
+    int safeFloor = building->getSafeFloor();
+
+    Logger::log("Rerouting affected passengers on elevator" + std::to_string(elevatorID) + " to floor " + std::to_string(safeFloor) + " designated as safe floor.");
+
+    std::vector<int> affectedPassengerIDs;
+    for (Passenger* p: passengers) {
+        if (p->isInElevator() && p->getElevatorID() == elevatorID) {
+            p->safetyOverrideElev(safeFloor);
+            affectedPassengerIDs.push_back(p->getID());
+
+            // Remove any future actions a passenger was planning to take, they are now involved in a safety situation.
+            for (auto it = eventQueue.begin(); it != eventQueue.end(); ++it) {
+                if (it->first > currentTimestep) {
+                    std::vector<Action>& actions = it->second;
+                    actions.erase(std::remove_if(actions.begin(), actions.end(), [p](const Action& action) { return action.passengerID == p->getID(); }), actions.end());
+
+                    if (actions.empty()) { // Remove this actions timestep if actions are left
+                        eventQueue.erase(it--); // found had to decrement iterator otherwise caused error
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 void SimulationController::reportSystemState() {
     logToConsole(building->reportECS());
 

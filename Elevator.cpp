@@ -1,7 +1,7 @@
 #include "Elevator.h"
 #include "ElevatorControlSystem.h"
 
-Elevator::Elevator(int id, int maxWeight, ElevatorControlSystem& ecs): id(id), currentFloor(1), maxWeight(maxWeight), currentWeight(0), activeState(false), movingDirection(0), ECS(ecs) {
+Elevator::Elevator(int id, int maxWeight, ElevatorControlSystem& ecs): id(id), currentFloor(1), maxWeight(maxWeight), currentWeight(0), activeState(false), movingDirection(0), available(true), ECS(ecs) {
     eD = new ElevatorDoor(id);
     fS = new FloorSensor(id);
     dS = new DisplaySystem(id); // Initialize all the elevator components
@@ -115,9 +115,26 @@ void Elevator::pressHelp(int helpCode) {
         ECS.connectToOperator(id, helpCode);
         Logger::log("Passenger chats with safety operator");
     } else if (helpCode == 1) {
-        // passenger unresponsive
+        aS->connectToOperator();
+        ECS.connectToOperator(id, helpCode);
+        Logger::log("Passenger unresponsive to operator");
+
+        available = false;
+        destinations.clear();
+        destinations.push_back(ECS.getSafeFloor());
+
+        ECS.handleHelpEvent(id);
+
     } else if (helpCode == 2) {
-        // staff unresponsive
+        aS->connectToOperator();
+        ECS.connectToOperator(id, helpCode);
+        Logger::log("Passenger attempts to chat with safety operator");
+
+        available = false;
+        destinations.clear();
+        destinations.push_back(ECS.getSafeFloor());
+
+        ECS.handleHelpEvent(id);
     }
 }
 

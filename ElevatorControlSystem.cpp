@@ -8,27 +8,39 @@ void ElevatorControlSystem::assignElevator(int floor, int direction) {
     int minDistance = INT_MAX;
 
     for (Elevator* elev: *elevators) {
-        int distance = abs(elev->getCurrentFloor() - floor);
+        if (elev->isAvailable()) {
+            int distance = abs(elev->getCurrentFloor() - floor);
 
-        if (!elev->isMoving()) {
-            bestElevator = elev;
-            break;
-        } else if (elev->getDirection() == direction) {
-            if ((direction == 1 && elev->getCurrentFloor() < floor) || (direction == -1 && elev->getCurrentFloor() > floor)) {
-                if (distance < minDistance) {
-                    bestElevator = elev;
-                    minDistance = distance;
+            if (!elev->isMoving()) {
+                bestElevator = elev;
+                break;
+            } else if (elev->getDirection() == direction) {
+                if ((direction == 1 && elev->getCurrentFloor() < floor) || (direction == -1 && elev->getCurrentFloor() > floor)) {
+                    if (distance < minDistance) {
+                        bestElevator = elev;
+                        minDistance = distance;
+                    }
                 }
             }
         }
     }
 
     if (!bestElevator) {
-        bestElevator = (*elevators)[0]; // If we can't assing a good one based on rules assign this default one.
+        for (Elevator* e: *elevators) {
+            if (e->isAvailable()) {
+                bestElevator = e; // Assign first default one available.
+                break;
+            }
+        }
     }
 
-    Logger::log("Elevator Control System deemed elevator " + std::to_string(bestElevator->getID()) + " for request to floor " + std::to_string(floor));
-    bestElevator->addDestination(floor);
+    if (!bestElevator) {
+        Logger::log("CRITICAL ERROR: No Elevator was available, system unable to continue");
+        simController.stopSimulation();
+    } else {
+        Logger::log("Elevator Control System deemed elevator " + std::to_string(bestElevator->getID()) + " for request to floor " + std::to_string(floor));
+        bestElevator->addDestination(floor);
+    }
 }
 
 void ElevatorControlSystem::elevatorArrived(int elevatorID, int floor, int direction) {
@@ -49,9 +61,16 @@ void ElevatorControlSystem::handleSafetyEvent(const std::string& code, int safeF
     }
 }
 
+void ElevatorControlSystem::handleHelpEvent(int elevatorID) {
+    Logger::log("Elevator control sysetem handling help unresponsive safety event.");
+    safetyEventOccuring = true;
+
+    simController.notifyHelpEvent(elevatorID);
+}
+
 void ElevatorControlSystem::connectToOperator(int elevatorId, int code) {
     Logger::log("Elevator Control System connecting elevator " + std::to_string(elevatorId) + " to safety operator.");
-    simController.getBuilding().connectBuildingSafety(elevatorId, code);
+    simController.getBuilding().connectBuildingSafety(code);
 }
 
 void ElevatorControlSystem::updateElevators() {
@@ -69,6 +88,10 @@ void ElevatorControlSystem::updateElevators() {
 
 void ElevatorControlSystem::setElevators(std::vector<Elevator *> &e) {
     elevators = &e;
+}
+
+int ElevatorControlSystem::getSafeFloor() {
+    return simController.getBuilding().getSafeFloor();
 }
 
 std::string ElevatorControlSystem::reportState() const {

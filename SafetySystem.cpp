@@ -19,8 +19,8 @@ void SafetySystem::connectOperator(int code) {
     if (code == 0) {
         Logger::log("Safety Operator chats with passenger.");
     } else if (code == 1) {
-
+        Logger::log("Safety Operator attempts contact with passenger. No response from passenger. 911 call placed.");
     } else if (code == 2) {
-
+        Logger::log("safety Operator unresponsive to connection. 911 call palced.");
     }
 }

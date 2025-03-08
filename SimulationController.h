@@ -33,6 +33,7 @@ class SimulationController : public QObject {
 
         void logToConsole(const std::string& message);
         void notifyPassengers(int elevatorID, int floor, int direction);
+        void notifyHelpEvent(int elevatorID);
         void requestWeightDrop(int elevatorID);
 
         int getNumFloors() { return numFloors; }
