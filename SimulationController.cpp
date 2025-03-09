@@ -100,6 +100,29 @@ void SimulationController::notifyPassengers(int elevatorID, int floor, int direc
     }
 }
 
+void SimulationController::checkPassengerDoorInteraction(int elevatorID, int floor) {
+    auto events = eventQueue.find(currentTimestep);
+
+    if (events == eventQueue.end()) // No events for timestep then skip
+        return;
+
+    for (Passenger* p: passengers) {
+        if ((p->isInElevator() && p->getElevatorID()) == elevatorID) { // can either be someone on an elevator at this floor or they just got on but may still hold door.
+            for (const Action& action: events->second) {
+                if (action.passengerID == p->getID()) {
+                    if (action.action == "press_open_door") {
+                        Logger::log("Passenger " + std::to_string(p->getID()) + ": pressed hold door in elevator " + std::to_string(elevatorID) + " on floor " + std::to_string(floor));
+                        p->holdDoor();
+                    } else if (action.action == "press_close_door") {
+                        Logger::log("Passenger " + std::to_string(p->getID()) + ": pressed close door in elevator " + std::to_string(elevatorID) + " on floor " + std::to_string(floor));
+                        p->closeDoor();
+                    }
+                }
+            }
+        }
+    }
+}
+
 void SimulationController::requestWeightDrop(int elevatorID) { // For simulation purposes do this there are better ways but this works for providing idea of handling.
     for (Passenger* p: passengers) {
         if (p->isInElevator() && p->getElevatorID() == elevatorID) {
@@ -158,12 +181,10 @@ void SimulationController::processPassengerActions() {
                 passenger->requestElevator(1, action.destination);
             } else if (action.action == "press_down") {
                 passenger->requestElevator(-1, action.destination);
-            } else if (action.action == "press_open_door") {
-                passenger->holdDoor();
-            } else if (action.action == "press_close_door") {
-                passenger->closeDoor();
             } else if (action.action == "press_help") {
                 passenger->pressHelp(action.code);
+            } else if (action.action == "press_close_door" || action.action == "press_open_door") {
+                ; // Do nothing for these actions here but they aren't invalid actions just ignore them here
             } else {
                 qInfo() << "Passenger " << passenger->getID() << ": attemtped invalid action: " << QString::fromStdString(action.action);
             }

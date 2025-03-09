@@ -32,7 +32,11 @@ void Elevator::checkFloorArrival() {
         Logger::log("Elevator " + std::to_string(id) + " arrived at floor destination " + std::to_string(currentFloor));
         aS->ringBell();
         eD->open();
+
         ECS.elevatorArrived(id, currentFloor, movingDirection);
+
+        ECS.checkDoorInteraction(id, currentFloor);
+
         aS->ringBell();
         closeDoor();
     }
@@ -81,6 +85,7 @@ void Elevator::updateState() {
 }
 
 void Elevator::pressOpenDoor() {
+    Logger::log("Elevator " + std::to_string(id) + ": door closing timer overided holding door open");
     eD->open();
 }
 
@@ -100,7 +105,7 @@ void Elevator::closeDoor() {
 }
 
 void Elevator::pressCloseDoor() {
-    closeDoor();
+    Logger::log("Elevator " + std::to_string(id) + ": door closing timer overided closing now");
 }
 
 void Elevator::pressFloor(int floor) {

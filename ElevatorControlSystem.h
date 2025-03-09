@@ -17,6 +17,7 @@ class ElevatorControlSystem {
 
         void assignElevator(int floor, int direction); // int direction to reflect slight refinement. This is call from floor panel.
         void elevatorArrived(int elevatorID, int floor, int direction);
+        void checkDoorInteraction(int elevatorID, int floor);
         void overloadNotify(int elevatorID);
         void updateElevators();
 

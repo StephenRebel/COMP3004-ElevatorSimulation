@@ -48,6 +48,10 @@ void ElevatorControlSystem::elevatorArrived(int elevatorID, int floor, int direc
     simController.getBuilding().getFloorPanel(floor).deIlluminate(direction);
 }
 
+void ElevatorControlSystem::checkDoorInteraction(int elevatorID, int floor) {
+    simController.checkPassengerDoorInteraction(elevatorID, floor);
+}
+
 void ElevatorControlSystem::overloadNotify(int elevatorID) {
     simController.requestWeightDrop(elevatorID);
 }

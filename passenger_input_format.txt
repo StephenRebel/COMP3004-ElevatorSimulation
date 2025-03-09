@@ -93,13 +93,15 @@ Enable safety events select Fire alarm or Power outage, timestep: 12
 	]
 }
 
-Scenario 4: Passenger 1 has safety indicent, 2 and 3 cause overload (can modify what event p1 has with destination 0 for alright, 1 for passenger unresponsive, 2 for operator unresponsive), floors 8, elevators 2, passengers 3.
+Scenario 4: Passenger 1 uses door holding and closing, has safety indicent, 2 and 3 cause overload (can modify what event p1 has with destination 0 for alright, 1 for passenger unresponsive, 2 for operator unresponsive), floors 8, elevators 2, passengers 3.
 {
 	"initial_floor": 2,
 	"initial_weight": 80,
 	"actions": [
 		{"timestep": 1, "action": "press_up", "destination": 8},
-		{"timestep": 4, "action": "press_help", "code": 0}
+		{"timestep": 2, "action": "press_open_door"},
+		{"timestep": 2, "action": "press_close_door"},
+		{"timestep": 4, "action": "press_help", "code": 2}
 	]
 }
 
